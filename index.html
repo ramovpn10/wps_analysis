@@ -76,7 +76,7 @@
 
 <section id="page-database" class="page-section"><div class="card"><div class="card-header"><div class="card-icon"><i class="fas fa-database"></i></div><div><div class="card-title">قاعدة بيانات الـ IBANات</div><div class="card-subtitle">الـ IBANات المحفوظة</div></div></div><div class="btn-group" style="margin-bottom:20px"><button class="btn btn-primary" onclick="addIbanToDb()"><i class="fas fa-plus"></i> إضافة IBAN جديد</button><button class="btn btn-secondary" onclick="importDefaultIbans()"><i class="fas fa-download"></i> استيراد الافتراضي</button><button class="btn btn-danger" onclick="clearDatabase()"><i class="fas fa-trash"></i> مسح القاعدة</button></div><div id="databaseTableContainer"><table class="db-table"><thead><tr><th>#</th><th>اسم الموظف</th><th>IBAN</th><th>اللاحقة</th><th>التكرار</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="databaseTableBody"></tbody></table></div><div class="empty-state" id="dbEmptyState" style="display:none"><i class="fas fa-inbox"></i><h3>قاعدة البيانات فارغة</h3><p>اضغط على استيراد الافتراضي</p></div></div></section>
 
-<section id="page-signature" class="page-section"><div class="card"><div class="card-header"><div class="card-icon"><i class="fas fa-key"></i></div><div><div class="card-title">مفاتيح التوقيع</div><div class="card-subtitle">RSA-2048 / SHA-256 — PKCS#1 v1.5</div></div><span id="keyStatus" class="badge badge-warning">مفتاح محفوظ: لا</span></div><div class="info-box"><i class="fas fa-shield-alt"></i><p>التوقيع حسابي حقيقي داخل المتصفح فقط ولا يُرسل لأي خادم. <b>لكن</b> المفتاح يجب أن يكون هو المفتاح المسجّل لمنشأتك لدى مُد، وإلا سيرفض البنك الملف بخطأ 008.</p></div><div class="form-grid"><div class="form-group full-width"><label class="form-label">المفتاح الخاص (Private Key) — PKCS#8</label><textarea class="form-textarea" id="privateKeyInput" placeholder="-----BEGIN PRIVATE KEY-----"></textarea></div><div class="form-group full-width"><label class="form-label">المفتاح العام (Public Key) — للتحقق</label><textarea class="form-textarea" id="publicKeyInput" placeholder="-----BEGIN PUBLIC KEY-----"></textarea></div></div><div class="btn-group" style="margin-top:16px"><button class="btn btn-primary" onclick="saveSigningKeys()"><i class="fas fa-save"></i> حفظ وفحص المفاتيح</button><button class="btn btn-secondary" onclick="loadSavedKeys()"><i class="fas fa-redo"></i> إعادة تحميل</button><button class="btn btn-danger" onclick="clearSigningKeys()"><i class="fas fa-trash"></i> مسح</button></div></div><div class="card"><div class="card-header"><div class="card-icon"><i class="fas fa-signature"></i></div><div><div class="card-title">توقيع الملف المُولد</div><div class="card-subtitle">يوقّع جسم الملف (Header + Details)</div></div></div><div class="signature-area" id="generatedFileArea"><div class="signature-icon"><i class="fas fa-file-code"></i></div><p style="color:var(--text-muted);margin-bottom:16px">الملف المُولد جاهز للتوقيع</p><div class="btn-group" style="justify-content:center"><button class="btn btn-primary" onclick="signGeneratedFile()"><i class="fas fa-pen-fancy"></i> توقيع الملف المُولد</button><button class="btn btn-secondary" onclick="verifyGeneratedFile()"><i class="fas fa-shield-check"></i> التحقق من التوقيع</button></div></div><div class="signature-result" id="generatedSignatureResult" style="display:none"></div><div class="section-divider"></div><div class="signature-area" id="externalFileArea" onclick="document.getElementById('externalFileInput').click()"><div class="signature-icon"><i class="fas fa-cloud-upload-alt"></i></div><p style="color:var(--text-muted);margin-bottom:8px">اضغط هنا لرفع ملف .txt</p><input type="file" class="file-input-hidden" id="externalFileInput" accept=".txt" onchange="handleExternalFile(event)"></div><div id="externalFileInfo" style="display:none;margin:16px 0;padding:16px;background:var(--bg-input);border-radius:var(--radius-sm)"><div id="externalFileName" style="font-weight:700"></div><div id="externalFileSize" style="font-size:12px;color:var(--text-muted)"></div><div class="btn-group" style="margin-top:12px"><button class="btn btn-primary" onclick="signExternalFile()"><i class="fas fa-pen-fancy"></i> توقيع الملف</button><button class="btn btn-success" onclick="downloadSignedExternal()"><i class="fas fa-download"></i> تنزيل الملف الموقّع</button></div></div><div class="signature-result" id="externalSignatureResult" style="display:none"></div></div></section>
+<section id="page-signature" class="page-section"><div class="card"><div class="card-header"><div class="card-icon"><i class="fas fa-key"></i></div><div><div class="card-title">مفاتيح التوقيع</div><div class="card-subtitle">RSA-2048 / SHA-256 — PKCS#1 v1.5</div></div><span id="keyStatus" class="badge badge-warning">مفتاح محفوظ: لا</span></div><div class="info-box"><i class="fas fa-shield-alt"></i><p>التوقيع حسابي حقيقي داخل المتصفح فقط ولا يُرسل لأي خادم. <b>لكن</b> المفتاح يجب أن يكون هو المفتاح المسجّل لمنشأتك لدى مُد، وإلا سيرفض البنك الملف بخطأ 008.<br><b>الجزء المُوقّع</b> هو جسم الملف مضافًا إليه حرف السطر الجديد الذي يسبق الفاصل <code>-</code>، تمامًا كما في الموقع الأصلي.</p></div><div class="form-grid"><div class="form-group full-width"><label class="form-label">المفتاح الخاص (Private Key) — PKCS#8</label><textarea class="form-textarea" id="privateKeyInput" placeholder="-----BEGIN PRIVATE KEY-----"></textarea></div><div class="form-group full-width"><label class="form-label">المفتاح العام (Public Key) — للتحقق</label><textarea class="form-textarea" id="publicKeyInput" placeholder="-----BEGIN PUBLIC KEY-----"></textarea></div></div><div class="btn-group" style="margin-top:16px"><button class="btn btn-primary" onclick="saveSigningKeys()"><i class="fas fa-save"></i> حفظ وفحص المفاتيح</button><button class="btn btn-secondary" onclick="loadSavedKeys()"><i class="fas fa-redo"></i> إعادة تحميل</button><button class="btn btn-danger" onclick="clearSigningKeys()"><i class="fas fa-trash"></i> مسح</button></div></div><div class="card"><div class="card-header"><div class="card-icon"><i class="fas fa-signature"></i></div><div><div class="card-title">توقيع الملف المُولد</div><div class="card-subtitle">يوقّع جسم الملف (Header + Details) مضافًا سطرًا جديدًا</div></div></div><div class="signature-area" id="generatedFileArea"><div class="signature-icon"><i class="fas fa-file-code"></i></div><p style="color:var(--text-muted);margin-bottom:16px">الملف المُولد جاهز للتوقيع</p><div class="btn-group" style="justify-content:center"><button class="btn btn-primary" onclick="signGeneratedFile()"><i class="fas fa-pen-fancy"></i> توقيع الملف المُولد</button><button class="btn btn-secondary" onclick="verifyGeneratedFile()"><i class="fas fa-shield-check"></i> التحقق من التوقيع</button></div></div><div class="signature-result" id="generatedSignatureResult" style="display:none"></div><div class="section-divider"></div><div class="signature-area" id="externalFileArea" onclick="document.getElementById('externalFileInput').click()"><div class="signature-icon"><i class="fas fa-cloud-upload-alt"></i></div><p style="color:var(--text-muted);margin-bottom:8px">اضغط هنا لرفع ملف .txt</p><input type="file" class="file-input-hidden" id="externalFileInput" accept=".txt" onchange="handleExternalFile(event)"></div><div id="externalFileInfo" style="display:none;margin:16px 0;padding:16px;background:var(--bg-input);border-radius:var(--radius-sm)"><div id="externalFileName" style="font-weight:700"></div><div id="externalFileSize" style="font-size:12px;color:var(--text-muted)"></div><div class="btn-group" style="margin-top:12px"><button class="btn btn-primary" onclick="signExternalFile()"><i class="fas fa-pen-fancy"></i> توقيع الملف</button><button class="btn btn-success" onclick="downloadSignedExternal()"><i class="fas fa-download"></i> تنزيل الملف الموقّع</button><button class="btn btn-secondary" onclick="selfTestPayload()"><i class="fas fa-magnifying-glass"></i> فحص قاعدة التوقيع</button></div></div><div class="signature-result" id="externalSignatureResult" style="display:none"></div></div></section>
 
 <section id="page-preview" class="page-section"><div class="card"><div class="card-header"><div class="card-icon"><i class="fas fa-eye"></i></div><div><div class="card-title">معاينة الملف</div><div class="card-subtitle">مراجعة المحتوى قبل التحميل</div></div></div><div class="btn-group" style="margin-bottom:20px"><button class="btn btn-primary" onclick="refreshPreview()"><i class="fas fa-sync-alt"></i> تحديث</button><button class="btn btn-secondary" onclick="copyPreview()"><i class="fas fa-copy"></i> نسخ</button><button class="btn btn-success" onclick="downloadPreview()"><i class="fas fa-download"></i> تحميل</button></div><div class="preview-box" id="previewContent"></div></div></section>
 </main>
@@ -616,9 +616,46 @@ function base64ToBytes(b64) {
 
 function utf8Bytes(text) { return new TextEncoder().encode(text); }
 
-async function signBody(body, privatePem) {
+/*
+ * ---------------------------------------------------------------------------
+ * THE SIGNED PAYLOAD
+ * ---------------------------------------------------------------------------
+ * Recovered from the original working capture (`اجور نسخ.zip` -> HAR of
+ * mudad.com.sa) and from the signing page that produced the accepted files.
+ * That page did:
+ *
+ *     recordsText += detailLine + "\r\n";     // every line ends with EOL
+ *     fileBody     = header + recordsText;    // => ends with EOL
+ *     encodedB64   = btoa(fileBody);          // <-- fileBody is what gets signed
+ *     finalContent = fileBody + "-\r\n" + signature;
+ *
+ * and sign.php did `openssl_sign(base64_decode(b64content), ..., SHA256)`.
+ *
+ * So the signed payload is the body **including the line terminator that
+ * precedes the "-" separator**. Signing the body without that trailing
+ * newline produces a signature over different bytes and Mudad rejects the
+ * file with:
+ *     errorField: "SIGNATURE", errorCode: "008"
+ *
+ * `PAYLOAD_BOUNDARY` documents each candidate so the exact rule is visible
+ * and testable rather than buried. `runPayloadSelfTest()` proves which one
+ * matches a real accepted file using the establishment's own public key.
+ * ---------------------------------------------------------------------------
+ */
+const PAYLOAD_BOUNDARY = 'body-eol';   // 'body-eol' (default) | 'body' | 'body+dash'
+
+function signedPayload(body, boundary = PAYLOAD_BOUNDARY) {
+    const text = String(body == null ? '' : body);
+    if (boundary === 'body')      return text;
+    if (boundary === 'body+dash') return text + '\n-';
+    // 'body-eol': the newline that sits between the last detail and the '-'
+    return text.endsWith('\n') ? text : text + '\n';
+}
+
+async function signBody(body, privatePem, boundary = PAYLOAD_BOUNDARY) {
     const key = await importPrivateKey(privatePem);
-    const signature = await crypto.subtle.sign({ name: 'RSASSA-PKCS1-v1_5' }, key, utf8Bytes(body));
+    const message = signedPayload(body, boundary);
+    const signature = await crypto.subtle.sign({ name: 'RSASSA-PKCS1-v1_5' }, key, utf8Bytes(message));
     const base64 = bytesToBase64(signature);
     if (signature.byteLength !== 256) {
         throw new Error(`حجم التوقيع ${signature.byteLength} بايت، المتوقع 256 (RSA-2048)`);
@@ -629,12 +666,34 @@ async function signBody(body, privatePem) {
     return base64;
 }
 
-async function verifyBody(body, signatureBase64, publicPem) {
+async function verifyBody(body, signatureBase64, publicPem, boundary = PAYLOAD_BOUNDARY) {
     const key = await importPublicKey(publicPem);
     return crypto.subtle.verify(
         { name: 'RSASSA-PKCS1-v1_5' }, key,
-        base64ToBytes(signatureBase64), utf8Bytes(body)
+        base64ToBytes(signatureBase64), utf8Bytes(signedPayload(body, boundary))
     );
+}
+
+/*
+ * Tries every candidate boundary against a real accepted file with the
+ * establishment's public key, and reports which one verifies.
+ * This is the only way to be certain the payload rule is right, because the
+ * bundled key in the old site is NOT the establishment's registered key.
+ */
+async function runPayloadSelfTest(acceptedFileText, publicPem) {
+    const parts = splitFile(acceptedFileText);
+    if (!parts.signature) {
+        throw new Error('الملف المرجعي لا يحتوي على توقيع — اختر ملفًا مقبولًا من مودع.');
+    }
+    const results = {};
+    for (const boundary of ['body-eol', 'body', 'body+dash']) {
+        try {
+            results[boundary] = await verifyBody(parts.body, parts.signature, publicPem, boundary);
+        } catch (err) {
+            results[boundary] = false;
+        }
+    }
+    return { body: parts.body, signature: parts.signature, results };
 }
 
 /* Builds a complete, ready-to-upload wage file. */
@@ -825,6 +884,49 @@ async function signExternalFile(){
             const ok=await verifyBody(parts.body,signature,keys.publicKey);
             showAlert(ok?'✅ التوقيع في الملف صالح.':'❌ التوقيع في الملف غير صالح / المفتاح غير مطابق.',ok?'success':'danger');
         }
+    }catch(err){
+        r.style.display='block';
+        r.textContent='';
+        showAlert(err.message,'danger');
+    }
+}
+/*
+ * Proves the signed-payload rule against a file the bank already accepted,
+ * using the establishment's real public key. If 'body-eol' verifies and the
+ * others do not, the payload rule in this tool matches what Mudad checks.
+ */
+async function selfTestPayload(){
+    const r=document.getElementById('externalSignatureResult');
+    try{
+        if(!externalFileContent){ showAlert('اختر أولًا ملفًا مقبولًا من مودع (ليحتوي على توقيع).','warning'); return; }
+        const keys=getSigningKeys();
+        if(!keys.publicKey||!keys.publicKey.trim()) throw new Error('أضف المفتاح العام (-----BEGIN PUBLIC KEY-----) أولًا.');
+
+        const out=await runPayloadSelfTest(externalFileContent,keys.publicKey);
+        const hit=Object.keys(out.results).filter(k=>out.results[k]);
+        r.style.display='block';
+
+        if(hit.length===0){
+            r.textContent=
+                'لم يطابق أي احتمال التوقيع.\n\n'+
+                'السبب الأرجح: المفتاح العام ليس المفتاح المسجّل لمنشأتك لدى مُد،\n'+
+                'أو أن التوقيع في الملف ليس RSA-SHA256 (RSASSA-PKCS1-v1_5).\n\n'+
+                'النتائج: '+JSON.stringify(out.results);
+            showAlert('لم يتم التطابق — راجع المفتاح العام أولًا.','danger');
+            return;
+        }
+
+        r.textContent=
+            'النتائج: '+JSON.stringify(out.results)+'\n\n'+
+            'القاعدة الصحيحة: '+hit.join(', ')+'\n'+
+            'القاعدة المستخدمة حاليًا: '+PAYLOAD_BOUNDARY+'\n\n'+
+            (hit.length===1&&hit[0]===PAYLOAD_BOUNDARY
+                ? '✅ التطابق مؤكد — قاعدة التوقيع المستخدمة صحيحة.'
+                : '⚠️ يرجى ضبط PAYLOAD_BOUNDARY على: '+hit.join(', '));
+        showAlert(hit.length===1&&hit[0]===PAYLOAD_BOUNDARY
+            ? '✅ قاعدة التوقيع صحيحة ومؤكدة.'
+            : 'القاعدة الصحيحة: '+hit.join(', '),
+            hit.length===1&&hit[0]===PAYLOAD_BOUNDARY?'success':'warning');
     }catch(err){
         r.style.display='block';
         r.textContent='';
