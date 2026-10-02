@@ -71,12 +71,12 @@
 </div>
 <div class="card" style="text-align:center;padding:40px"><i class="fas fa-file-alt" style="font-size:48px;color:var(--primary-light);margin-bottom:16px"></i><h2 style="font-size:22px;margin-bottom:8px">توليد ملف الرواتب</h2><p style="color:var(--text-muted);font-size:14px;margin-bottom:24px">Header 122 → Details fixed-width → Separator → Signature</p><div class="btn-group" style="justify-content:center"><button class="btn btn-warning" onclick="loadReferenceTestData()"><i class="fas fa-vial"></i> تحميل بيانات الاختبار المرجعية</button>
                     <button class="btn btn-success" onclick="generateReferenceTestFile()"><i class="fas fa-file-download"></i> توليد ملف الاختبار</button>
-                    <button class="btn btn-primary" onclick="generateFile()"><i class="fas fa-download"></i> توليد وتحميل الملف</button><button class="btn btn-secondary" onclick="showPage('preview')"><i class="fas fa-eye"></i> معاينة الملف</button><button class="btn btn-success" onclick="saveTemplate()"><i class="fas fa-save"></i> حفظ القالب</button></div></div>
+                    <button class="btn btn-primary" onclick="generateFile()"><i class="fas fa-download"></i> توليد وتحميل الملف</button><button class="btn btn-secondary" onclick="showPage('preview')"><i class="fas fa-eye"></i> معاينة الملف</button><button class="btn btn-success" onclick="saveTemplate()"><i class="fas fa-save"></i> حفظ القالب</button><button class="btn btn-warning" onclick="downloadUnsignedBody()"><i class="fas fa-file-export"></i> تنزيل بدون توقيع (فحص فقط)</button></div></div>
 </section>
 
 <section id="page-database" class="page-section"><div class="card"><div class="card-header"><div class="card-icon"><i class="fas fa-database"></i></div><div><div class="card-title">قاعدة بيانات الـ IBANات</div><div class="card-subtitle">الـ IBANات المحفوظة</div></div></div><div class="btn-group" style="margin-bottom:20px"><button class="btn btn-primary" onclick="addIbanToDb()"><i class="fas fa-plus"></i> إضافة IBAN جديد</button><button class="btn btn-secondary" onclick="importDefaultIbans()"><i class="fas fa-download"></i> استيراد الافتراضي</button><button class="btn btn-danger" onclick="clearDatabase()"><i class="fas fa-trash"></i> مسح القاعدة</button></div><div id="databaseTableContainer"><table class="db-table"><thead><tr><th>#</th><th>اسم الموظف</th><th>IBAN</th><th>اللاحقة</th><th>التكرار</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="databaseTableBody"></tbody></table></div><div class="empty-state" id="dbEmptyState" style="display:none"><i class="fas fa-inbox"></i><h3>قاعدة البيانات فارغة</h3><p>اضغط على استيراد الافتراضي</p></div></div></section>
 
-<section id="page-signature" class="page-section"><div class="card"><div class="card-header"><div class="card-icon"><i class="fas fa-signature"></i></div><div><div class="card-title">التوقيع الرقمي</div><div class="card-subtitle">توقيع ملف الرواتب</div></div></div><div class="info-box"><i class="fas fa-shield-alt"></i><p>التوقيع الموجود هنا تجريبي مولد داخل المتصفح، وليس توقيع RSA مصرفي حقيقي.</p></div><div class="signature-area" id="generatedFileArea"><div class="signature-icon"><i class="fas fa-file-code"></i></div><p style="color:var(--text-muted);margin-bottom:16px">الملف المُولد جاهز للتوقيع</p><button class="btn btn-primary" onclick="signGeneratedFile()"><i class="fas fa-pen-fancy"></i> توقيع الملف المُولد</button></div><div class="signature-result" id="generatedSignatureResult" style="display:none"></div><div class="section-divider"></div><div class="signature-area" id="externalFileArea" onclick="document.getElementById('externalFileInput').click()"><div class="signature-icon"><i class="fas fa-cloud-upload-alt"></i></div><p style="color:var(--text-muted);margin-bottom:8px">اضغط هنا لرفع ملف .txt</p><input type="file" class="file-input-hidden" id="externalFileInput" accept=".txt" onchange="handleExternalFile(event)"></div><div id="externalFileInfo" style="display:none;margin:16px 0;padding:16px;background:var(--bg-input);border-radius:var(--radius-sm)"><div id="externalFileName" style="font-weight:700"></div><div id="externalFileSize" style="font-size:12px;color:var(--text-muted)"></div><button class="btn btn-primary" style="margin-top:12px" onclick="signExternalFile()"><i class="fas fa-pen-fancy"></i> توقيع الملف</button></div><div class="signature-result" id="externalSignatureResult" style="display:none"></div></div></section>
+<section id="page-signature" class="page-section"><div class="card"><div class="card-header"><div class="card-icon"><i class="fas fa-key"></i></div><div><div class="card-title">مفاتيح التوقيع</div><div class="card-subtitle">RSA-2048 / SHA-256 — PKCS#1 v1.5</div></div><span id="keyStatus" class="badge badge-warning">مفتاح محفوظ: لا</span></div><div class="info-box"><i class="fas fa-shield-alt"></i><p>التوقيع حسابي حقيقي داخل المتصفح فقط ولا يُرسل لأي خادم. <b>لكن</b> المفتاح يجب أن يكون هو المفتاح المسجّل لمنشأتك لدى مُد، وإلا سيرفض البنك الملف بخطأ 008.</p></div><div class="form-grid"><div class="form-group full-width"><label class="form-label">المفتاح الخاص (Private Key) — PKCS#8</label><textarea class="form-textarea" id="privateKeyInput" placeholder="-----BEGIN PRIVATE KEY-----"></textarea></div><div class="form-group full-width"><label class="form-label">المفتاح العام (Public Key) — للتحقق</label><textarea class="form-textarea" id="publicKeyInput" placeholder="-----BEGIN PUBLIC KEY-----"></textarea></div></div><div class="btn-group" style="margin-top:16px"><button class="btn btn-primary" onclick="saveSigningKeys()"><i class="fas fa-save"></i> حفظ وفحص المفاتيح</button><button class="btn btn-secondary" onclick="loadSavedKeys()"><i class="fas fa-redo"></i> إعادة تحميل</button><button class="btn btn-danger" onclick="clearSigningKeys()"><i class="fas fa-trash"></i> مسح</button></div></div><div class="card"><div class="card-header"><div class="card-icon"><i class="fas fa-signature"></i></div><div><div class="card-title">توقيع الملف المُولد</div><div class="card-subtitle">يوقّع جسم الملف (Header + Details)</div></div></div><div class="signature-area" id="generatedFileArea"><div class="signature-icon"><i class="fas fa-file-code"></i></div><p style="color:var(--text-muted);margin-bottom:16px">الملف المُولد جاهز للتوقيع</p><div class="btn-group" style="justify-content:center"><button class="btn btn-primary" onclick="signGeneratedFile()"><i class="fas fa-pen-fancy"></i> توقيع الملف المُولد</button><button class="btn btn-secondary" onclick="verifyGeneratedFile()"><i class="fas fa-shield-check"></i> التحقق من التوقيع</button></div></div><div class="signature-result" id="generatedSignatureResult" style="display:none"></div><div class="section-divider"></div><div class="signature-area" id="externalFileArea" onclick="document.getElementById('externalFileInput').click()"><div class="signature-icon"><i class="fas fa-cloud-upload-alt"></i></div><p style="color:var(--text-muted);margin-bottom:8px">اضغط هنا لرفع ملف .txt</p><input type="file" class="file-input-hidden" id="externalFileInput" accept=".txt" onchange="handleExternalFile(event)"></div><div id="externalFileInfo" style="display:none;margin:16px 0;padding:16px;background:var(--bg-input);border-radius:var(--radius-sm)"><div id="externalFileName" style="font-weight:700"></div><div id="externalFileSize" style="font-size:12px;color:var(--text-muted)"></div><div class="btn-group" style="margin-top:12px"><button class="btn btn-primary" onclick="signExternalFile()"><i class="fas fa-pen-fancy"></i> توقيع الملف</button><button class="btn btn-success" onclick="downloadSignedExternal()"><i class="fas fa-download"></i> تنزيل الملف الموقّع</button></div></div><div class="signature-result" id="externalSignatureResult" style="display:none"></div></div></section>
 
 <section id="page-preview" class="page-section"><div class="card"><div class="card-header"><div class="card-icon"><i class="fas fa-eye"></i></div><div><div class="card-title">معاينة الملف</div><div class="card-subtitle">مراجعة المحتوى قبل التحميل</div></div></div><div class="btn-group" style="margin-bottom:20px"><button class="btn btn-primary" onclick="refreshPreview()"><i class="fas fa-sync-alt"></i> تحديث</button><button class="btn btn-secondary" onclick="copyPreview()"><i class="fas fa-copy"></i> نسخ</button><button class="btn btn-success" onclick="downloadPreview()"><i class="fas fa-download"></i> تحميل</button></div><div class="preview-box" id="previewContent"></div></div></section>
 </main>
@@ -106,6 +106,7 @@ document.getElementById('refNoMethod').addEventListener('change',function(){if(t
 document.getElementById('companyPrefix').addEventListener('change',function(){if(this.value.length===12)document.getElementById('sourceIban').value='SA98'+'8000'+this.value+'0103'});
 document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('active')}));
 if(localStorage.getItem('payroll_template'))setTimeout(loadTemplate,500);
+loadSavedKeys();
 });
 function setDefaultDate(){document.getElementById('batchDate').value=new Date().toISOString().split('T')[0]}
 
@@ -210,8 +211,24 @@ function applyRandomRange(){employees.forEach(e=>{if(e.active){e.baseSalary=Math
 function handleCsvFile(ev){let f=ev.target.files[0];if(!f)return;document.getElementById('csvFileName').textContent=f.name;let r=new FileReader;r.onload=e=>{e.target.result.split(/\r?\n/).forEach((l,i)=>{let p=l.split(',');if(i<employees.length&&l.trim()&&p.length>=2){employees[i].baseSalary=parseFloat(p[0])||0;employees[i].fees=parseFloat(p[1])||0}});initEmployees();updateStats()};r.readAsText(f)}
 function updateStats(){let a=employees.filter(e=>e.active),s=a.reduce((x,e)=>x+(+e.baseSalary||0),0),f=a.reduce((x,e)=>x+(+e.fees||0),0);document.getElementById('activeCount').textContent=a.length;document.getElementById('totalSalary').textContent=s.toFixed(2);document.getElementById('totalFees').textContent=f.toFixed(2);document.getElementById('grandTotal').textContent=(s+f).toFixed(2)}
 
+/*
+ * Mudad pads every field to a fixed width in BYTES, not characters.
+ * An Arabic character is 2 bytes in UTF-8, so padding by characters
+ * (the old behaviour) made any line containing Arabic exceed 583 bytes
+ * and the file was rejected. This pads by byte length.
+ */
+const utf8Encoder = new TextEncoder();
+function utf8ByteLength(value) {
+    return utf8Encoder.encode(String(value == null ? '' : value)).length;
+}
+
 function padRight(value, length) {
-    return String(value ?? '').slice(0, length).padEnd(length, ' ');
+    const text = String(value == null ? '' : value);
+    const used = utf8ByteLength(text);
+    if (used > length) {
+        throw new Error(`قيمة الحقل أطول من ${length} بايت (${used}): "${text}"`);
+    }
+    return text + ' '.repeat(length - used);
 }
 
 function formatAmount(value, length = 16) {
@@ -265,8 +282,10 @@ function buildHeader() {
     ].join('\t');
 }
 
-function random10Digit(){return ''}
-
+function getBatchDate(){
+    return (document.getElementById('batchDate').value ||
+        new Date().toISOString().split('T')[0]).replace(/-/g,'');
+}
 
 function makeTransactionId(dateYYYYMMDD, sessionId, transactionSuffix){
     const yyMMdd=String(dateYYYYMMDD||'').slice(2,8).padStart(6,'0');
@@ -276,13 +295,20 @@ function makeTransactionId(dateYYYYMMDD, sessionId, transactionSuffix){
     return yyMMdd+session+suffix;
 }
 
+function bankCodeOf() {
+    return document.getElementById('bankCode').value || 'RJHI';
+}
+function descriptionOf() {
+    return document.getElementById('description').value || 'Payroll';
+}
+
 function buildPayrollDetail(emp, transactionId, dateYYYYMMDD, recordId) {
     return [
         formatAmount(Number(emp.baseSalary || 0) + Number(emp.fees || 0), 16),
         padRight(emp.iban, 34),
         padRight(emp.name, 140),
-        padRight('RJHI', 140),
-        padRight('Payroll', 140),
+        padRight(bankCodeOf(), 140),
+        padRight(descriptionOf(), 140),
         padRight('', 6),
         formatAmount13(emp.baseSalary),
         formatAmount13(0),
@@ -302,8 +328,8 @@ function buildCentralizationDetail(item, transactionId, dateYYYYMMDD, recordId) 
         formatAmount(total, 16),
         padRight(item.iban, 34),
         padRight(item.code || item.name || '', 140),
-        padRight('RJHI', 140),
-        padRight(item.centralizationRef || '', 140),
+        padRight(bankCodeOf(), 140),
+        padRight(item.centralizationRef || descriptionOf(), 140),
         padRight('', 6),
         formatAmount13(total),
         formatAmount13(0),
@@ -316,14 +342,10 @@ function buildCentralizationDetail(item, transactionId, dateYYYYMMDD, recordId) 
     ].join('\t');
 }
 
-function buildFileContent() {
+function buildFileBody() {
     normalizeAllEmployees();
 
-    const batchDate=(
-        document.getElementById('batchDate').value ||
-        new Date().toISOString().split('T')[0]
-    ).replace(/-/g,'');
-
+    const batchDate=getBatchDate();
     const sessionId=document.getElementById('sessionId').value||'';
     const type=document.getElementById('transactionType').value||'P000';
     const activeEmployees=employees.filter(e=>e.active);
@@ -353,24 +375,57 @@ function buildFileContent() {
         return buildPayrollDetail(emp,transactionId,batchDate,emp.recordId);
     });
 
-    const existingSignature=generatedFileContent.match(/\n-\n([\s\S]*)$/);
-    const signature=existingSignature?existingSignature[1]:'';
+    return headerLine+'\n'+detailLines.join('\n');
+}
 
-    return headerLine+'\n'+detailLines.join('\n')+'\n-\n'+signature;
+/*
+ * Accepted files use LF only and end immediately after the signature:
+ * no CRLF anywhere, and no trailing newline after the Base64 block.
+ */
+function finalizeFile(body, signature) {
+    const normalized=String(body==null?'':body)
+        .replace(/\r\n/g,'\n')
+        .replace(/\r/g,'\n')
+        .replace(/\n+$/,'');
+    return normalized+'\n-\n'+String(signature==null?'':signature).replace(/\s+$/,'');
+}
+
+/* Splits a wage file into the signed body and its Base64 signature. */
+function splitFile(content) {
+    const normalized=String(content==null?'':content).replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+    const i=normalized.lastIndexOf('\n-\n');
+    if (i<0) return {body:normalized, signature:'', separated:false};
+    return {body:normalized.slice(0,i), signature:normalized.slice(i+3).trim(), separated:true};
+}
+
+function buildFileContent() {
+    const previous=splitFile(generatedFileContent);
+    return finalizeFile(buildFileBody(), previous.signature);
 }
 
 
-function validateGeneratedStructure(content) {
-    const lines = content.split('\n');
-    const result = { ok: true, headerLength: 0, detailLengths: [], errors: [] };
+const HEADER_WIDTHS = [4,10,24,3,8,16,8,16,6,18];
+const DETAIL_WIDTHS = [16,34,140,140,140,6,13,13,13,13,10,16,8,8];
 
-    result.headerLength = lines[0] ? lines[0].length : 0;
+function validateGeneratedStructure(content) {
+    const lines = String(content==null?'':content).split('\n');
+    const result = { ok: true, headerLength: 0, detailLengths: [], errors: [], warnings: [] };
+
+    result.headerLength = utf8ByteLength(lines[0]);
     const headerTabs = lines[0] ? (lines[0].match(/\t/g) || []).length : 0;
 
     const headerFields=lines[0]?lines[0].split('\t'):[];
     if(headerFields.length!==10){
         result.ok=false;
         result.errors.push(`عدد حقول Header = ${headerFields.length} بدل 10`);
+    }else{
+        headerFields.forEach((f,j)=>{
+            const w=utf8ByteLength(f);
+            if(w!==HEADER_WIDTHS[j]){
+                result.ok=false;
+                result.errors.push(`عرض حقل Header ${j+1} = ${w} بايت بدل ${HEADER_WIDTHS[j]}`);
+            }
+        });
     }
 
     if (result.headerLength !== 122) {
@@ -391,26 +446,33 @@ function validateGeneratedStructure(content) {
             break;
         }
         if (!lines[i]) continue;
-        const len = lines[i].length;
+        const len = utf8ByteLength(lines[i]);
         result.detailLengths.push(len);
 
-        // Directly measured from the accepted files:
-        // Detail = 583 chars, 14 fields, 13 tabs.
+        // Measured from the accepted files: 583 bytes, 14 fields, 13 tabs.
         if (len !== 583) {
             result.ok = false;
-            result.errors.push(`طول Detail في السطر ${i + 1} = ${len} بدل 583`);
+            result.errors.push(`طول Detail في السطر ${i + 1} = ${len} بايت بدل 583`);
         }
 
         const detailFields=lines[i].split('\t');
         if(detailFields.length!==14){
             result.ok=false;
             result.errors.push(`عدد حقول Detail ${i+1} = ${detailFields.length} بدل 14`);
+        }else{
+            detailFields.forEach((f,j)=>{
+                const w=utf8ByteLength(f);
+                if(w!==DETAIL_WIDTHS[j]){
+                    result.ok=false;
+                    result.errors.push(`عرض الحقل ${j+1} في السطر ${i+1} = ${w} بايت بدل ${DETAIL_WIDTHS[j]}`);
+                }
+            });
         }
-        if(!/^\d{10}$/.test(detailFields[10]||'')){
+        if(!/^\d{10}$/.test((detailFields[10]||'').trim())){
             result.ok=false;
             result.errors.push(`Record ID في Detail ${i+1} ليس 10 أرقام`);
         }
-        if(!/^\d{16}$/.test(detailFields[11]||'')){
+        if(!/^\d{16}$/.test((detailFields[11]||'').trim())){
             result.ok=false;
             result.errors.push(`Transaction ID في Detail ${i+1} ليس 16 رقمًا`);
         }
@@ -428,27 +490,8 @@ function validateGeneratedStructure(content) {
         return result;
     }
 
-    const signature = lines[separatorIndex + 1] || '';
-    if (!signature) {
-        result.ok = false;
-        result.errors.push('التوقيع غير موجود');
-    } else {
-        if (signature.length !== 344) {
-            result.ok = false;
-            result.errors.push(`طول التوقيع = ${signature.length} بدل 344`);
-        } else {
-            try {
-                const decoded = atob(signature);
-                if (decoded.length !== 256) {
-                    result.ok = false;
-                    result.errors.push(`حجم التوقيع بعد Base64 = ${decoded.length} بايت بدل 256`);
-                }
-            } catch (e) {
-                result.ok = false;
-                result.errors.push('التوقيع ليس Base64 صالحًا');
-            }
-        }
-    }
+    const signature = (lines[separatorIndex + 1] || '').trim();
+    result.signatureLength = signature.length;
 
     // Accepted files end at the signature: no trailing blank line.
     if (lines.length !== separatorIndex + 2) {
@@ -456,68 +499,293 @@ function validateGeneratedStructure(content) {
         result.errors.push('يوجد محتوى بعد التوقيع');
     }
 
+    // An empty signature is a structure problem, not a cryptographic one.
+    if (!signature) {
+        result.errors.push('التوقيع غير موجود');
+    } else if (signature.length !== 344) {
+        result.errors.push(`طول التوقيع = ${signature.length} بدل 344`);
+    } else {
+        try {
+            const decoded = atob(signature);
+            if (decoded.length !== 256) {
+                result.errors.push(`حجم التوقيع بعد Base64 = ${decoded.length} بايت بدل 256`);
+            }
+        } catch (e) {
+            result.errors.push('التوقيع ليس Base64 صالحًا');
+        }
+    }
+
+    if (/\r/.test(content)) {
+        result.errors.push('الملف يحتوي على CR (CRLF) — الملفات المقبولة تستخدم LF فقط');
+    }
+
+    result.ok = result.errors.length === 0;
     return result;
+}
+
+/* ============================================================
+   RSA signing / verification (real cryptography, local only)
+
+   Mudad validates the wage file with an integrity check on the
+   Base64 signature that follows the "-" separator:
+       errorField: "SIGNATURE", errorCode: "008"
+   The scheme observed in every accepted file is:
+       RSASSA-PKCS1-v1_5 over SHA-256 of the exact UTF-8 bytes of
+       the file body (header + details), RSA-2048 => 256 bytes
+       => 344 Base64 characters.
+   The private key never leaves the browser.
+   ============================================================ */
+
+const KEY_STORE = 'payroll_signing_keys';
+
+function getSigningKeys() {
+    try { return JSON.parse(localStorage.getItem(KEY_STORE) || '{}'); }
+    catch (e) { return {}; }
+}
+function storeSigningKeys(keys) { localStorage.setItem(KEY_STORE, JSON.stringify(keys)); }
+
+function pemToDer(pem) {
+    const base64 = String(pem || '')
+        .replace(/-----BEGIN [^-]+-----/g, '')
+        .replace(/-----END [^-]+-----/g, '')
+        .replace(/[\r\n\t ]/g, '');
+    if (!base64) throw new Error('نص المفتاح فارغ');
+    let binary;
+    try { binary = atob(base64); }
+    catch (e) { throw new Error('نص المفتاح ليس Base64 صالحًا'); }
+    const der = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) der[i] = binary.charCodeAt(i);
+    return der;
+}
+
+async function importPrivateKey(pem) {
+    if (!/-----BEGIN [^-]*PRIVATE KEY-----/.test(pem || '')) {
+        throw new Error('صيغة المفتاح غير مدعومة: يجب أن يكون PEM بمفتاح خاص (-----BEGIN PRIVATE KEY-----)');
+    }
+    return crypto.subtle.importKey(
+        'pkcs8', pemToDer(pem),
+        { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['sign']
+    );
+}
+
+async function importPublicKey(pem) {
+    if (!/-----BEGIN [^-]*PUBLIC KEY-----/.test(pem || '')) {
+        throw new Error('صيغة المفتاح غير مدعومة: يجب أن يكون PEM بمفتاح عام (-----BEGIN PUBLIC KEY-----)');
+    }
+    return crypto.subtle.importKey(
+        'spki', pemToDer(pem),
+        { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['verify']
+    );
+}
+
+function bytesToBase64(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let out = '';
+    for (let i = 0; i < bytes.length; i++) out += String.fromCharCode(bytes[i]);
+    return btoa(out);
+}
+function base64ToBytes(b64) {
+    const binary = atob(String(b64 || '').trim());
+    return Uint8Array.from(binary, c => c.charCodeAt(0));
+}
+
+function utf8Bytes(text) { return new TextEncoder().encode(text); }
+
+async function signBody(body, privatePem) {
+    const key = await importPrivateKey(privatePem);
+    const signature = await crypto.subtle.sign({ name: 'RSASSA-PKCS1-v1_5' }, key, utf8Bytes(body));
+    const base64 = bytesToBase64(signature);
+    if (signature.byteLength !== 256) {
+        throw new Error(`حجم التوقيع ${signature.byteLength} بايت، المتوقع 256 (RSA-2048)`);
+    }
+    if (base64.length !== 344) {
+        throw new Error(`طول Base64 الناتج ${base64.length}، المتوقع 344`);
+    }
+    return base64;
+}
+
+async function verifyBody(body, signatureBase64, publicPem) {
+    const key = await importPublicKey(publicPem);
+    return crypto.subtle.verify(
+        { name: 'RSASSA-PKCS1-v1_5' }, key,
+        base64ToBytes(signatureBase64), utf8Bytes(body)
+    );
+}
+
+/* Builds a complete, ready-to-upload wage file. */
+async function produceSignedFile() {
+    const body = buildFileBody();
+    const keys = getSigningKeys();
+    if (!keys.privateKey || !keys.privateKey.trim()) {
+        const err = new Error('لا يوجد مفتاح توقيع محفوظ — أضف المفتاح الخاص المعتمد من صفحة «التوقيع الرقمي».');
+        err.missingKey = true;
+        throw err;
+    }
+    const signature = await signBody(body, keys.privateKey);
+    return finalizeFile(body, signature);
 }
 
 function downloadFile(c,n){let b=new Blob([c],{type:'text/plain;charset=utf-8'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}
 
 function generateReferenceTestFile(){
     loadReferenceTestData();
-    setTimeout(()=>{
-        try{
-            generatedFileContent=buildFileContent();
-            const check=validateGeneratedStructure(generatedFileContent);
-            if(!check.ok){
-                showAlert('فشل الفحص البنيوي: '+check.errors.slice(0,3).join(' | '),'danger');
-                return;
-            }
-            downloadFile(generatedFileContent,'09-111963_reference_test.txt');
-            showAlert('تم توليد ملف الاختبار المرجعي.','success');
-        }catch(err){
-            showAlert(err.message,'danger');
-        }
-    },50);
+    generateFile('09-111963_reference_test.txt');
 }
 
-function generateFile(){
+async function generateFile(forcedName){
+    let content;
     try{
-        generatedFileContent=buildFileContent();
+        content=await produceSignedFile();
     }catch(err){
-        showAlert(err.message,'warning');
+        if(err && err.missingKey){
+            showAlert(err.message+' بدون توقيع سيرفضه البنك (خطأ 008).','danger');
+            return;
+        }
+        showAlert(err.message,'danger');
         return;
     }
 
-    const check=validateGeneratedStructure(generatedFileContent);
+    generatedFileContent=content;
+
+    const check=validateGeneratedStructure(content);
     if(!check.ok){
-        showAlert('فشل فحص البنية: '+check.errors.slice(0,2).join(' | '),'danger');
+        showAlert('فشل فحص البنية: '+check.errors.slice(0,3).join(' | '),'danger');
         return;
     }
 
-    const d=document.getElementById('batchDate').value||new Date().toISOString().split('T')[0];
-    downloadFile(generatedFileContent,(document.getElementById('batchId').value||'batch')+'_'+d.replace(/-/g,'')+'.txt');
-    showAlert('تم توليد الملف بالبنية الحالية.','success');
+    const name = forcedName || ((document.getElementById('batchId').value||'batch')+'_'+getBatchDate()+'.txt');
+    downloadFile(content, name);
+    showAlert('تم توليد الملف وتوقيعه. تحقق من التوقيع قبل الرفع.','success');
 }
 
-function refreshPreview(){generatedFileContent=buildFileContent();let h=generatedFileContent.split('\n').map((l,i)=>i===0?`<span class="header-line">${escapeHtml(l)}</span>`:l==='-'?'<span class="separator-line">-</span>':l.length>200?`<span class="signature-line">${escapeHtml(l.slice(0,100))}... [${l.length} chars]</span>`:`<span class="detail-line">${escapeHtml(l)}</span>`).join('\n');document.getElementById('previewContent').innerHTML=h}
+/* Structural export without a signature - for inspection only, never for upload. */
+function downloadUnsignedBody(){
+    let body;
+    try{ body=buildFileBody(); }
+    catch(err){ showAlert(err.message,'warning'); return; }
+    const content=finalizeFile(body,'');
+    const check=validateGeneratedStructure(content);
+    generatedFileContent=content;
+    showAlert('فحص البنية: '+(check.ok?'سليم':'فيه أخطاء')+' — '+
+        'تنبيه: بدون توقيع سيرفضه البنك (خطأ 008).','warning');
+    downloadFile(content,(document.getElementById('batchId').value||'batch')+'_unsigned.txt');
+}
+
+function refreshPreview(){
+    let body;
+    try{
+        body=buildFileBody();
+    }catch(err){
+        document.getElementById('previewContent').innerHTML=
+            '<span class="detail-line">'+escapeHtml('تعذر بناء المعاينة: '+err.message)+'</span>';
+        return;
+    }
+    const previous=splitFile(generatedFileContent);
+    generatedFileContent=finalizeFile(body,previous.signature);
+    let h=generatedFileContent.split('\n').map((l,i)=>i===0?`<span class="header-line">${escapeHtml(l)}</span>`:l==='-'?'<span class="separator-line">-</span>':l.length>200?`<span class="signature-line">${escapeHtml(l.slice(0,100))}... [${l.length} chars]</span>`:`<span class="detail-line">${escapeHtml(l)}</span>`).join('\n');
+    document.getElementById('previewContent').innerHTML=h;
+}
 function copyPreview(){navigator.clipboard.writeText(generatedFileContent).then(()=>showAlert('تم نسخ المحتوى!','success')).catch(()=>showAlert('تعذر النسخ من المتصفح','danger'))}
-function downloadPreview(){if(!generatedFileContent)refreshPreview();let d=document.getElementById('batchDate').value||new Date().toISOString().split('T')[0];downloadFile(generatedFileContent,(document.getElementById('batchId').value||'batch')+'_'+d.replace(/-/g,'')+'.txt')}
-function signGeneratedFile(){
+function downloadPreview(){if(!generatedFileContent)refreshPreview();downloadFile(generatedFileContent,(document.getElementById('batchId').value||'batch')+'_'+getBatchDate()+'.txt')}
+async function signGeneratedFile(){
     const r=document.getElementById('generatedSignatureResult');
-    r.style.display='block';
-    r.textContent='التوقيع الرقمي الحقيقي لم يتم تفعيله بعد. لن يتم إنشاء توقيع وهمي حتى لا ننتج ملفًا غير مطابق للملفات المقبولة.';
-    showAlert('التوقيع الحقيقي ما زال يحتاج خوارزمية/مفتاح التوقيع المعتمد. لم يتم إنشاء توقيع وهمي.','warning');
+    try{
+        const keys=getSigningKeys();
+        if(!keys.privateKey||!keys.privateKey.trim()) throw new Error('احفظ المفتاح الخاص المعتمد أولاً من نفس الصفحة.');
+        const body=buildFileBody();
+        const signature=await signBody(body,keys.privateKey);
+        generatedFileContent=finalizeFile(body,signature);
+
+        const check=validateGeneratedStructure(generatedFileContent);
+        r.style.display='block';
+        r.textContent=signature+'\n\n— فحص البنية: '+(check.ok?'سليم':'فيه أخطاء')+
+            '\n— الأخطاء: '+(check.errors.length?check.errors.join(' | '):'لا يوجد');
+
+        if(keys.publicKey&&keys.publicKey.trim()){
+            const ok=await verifyBody(body,signature,keys.publicKey);
+            showAlert(ok?'تم التوقيع والتحقق منه بنجاح بالمفتاح العام.':'تم التوقيع لكن التحقق فشل — المفتاح العام لا يطابق المفتاح الخاص.',ok?'success':'danger');
+        }else{
+            showAlert('تم التوقيع بنجاح. أضف المفتاح العام لتفعيل التحقق.','success');
+        }
+    }catch(err){
+        r.style.display='block';
+        r.textContent='';
+        showAlert(err.message,'danger');
+    }
+}
+async function verifyGeneratedFile(){
+    try{
+        const keys=getSigningKeys();
+        if(!keys.publicKey||!keys.publicKey.trim()) throw new Error('أضف المفتاح العام (-----BEGIN PUBLIC KEY-----) لحفظه.');
+        const body=splitFile(generatedFileContent);
+        if(!body.signature) throw new Error('لا يوجد توقيع في الملف الحالي — وقّع الملف أولًا.');
+        const ok=await verifyBody(body.body,body.signature,keys.publicKey);
+        showAlert(ok?'✅ التوقيع صالح.':'❌ التوقيع غير صالح / المفتاح غير مطابق.',ok?'success':'danger');
+    }catch(err){ showAlert(err.message,'danger'); }
 }
 function handleExternalFile(ev){let f=ev.target.files[0];if(!f)return;externalFileName=f.name;let r=new FileReader;r.onload=e=>{externalFileContent=e.target.result;document.getElementById('externalFileArea').classList.add('has-file');document.getElementById('externalFileInfo').style.display='block';document.getElementById('externalFileName').textContent=f.name;document.getElementById('externalFileSize').textContent=(f.size/1024).toFixed(2)+' KB'};r.readAsText(f)}
-function signExternalFile(){
+async function signExternalFile(){
     if(!externalFileContent){
         showAlert('الرجاء اختيار ملف أولاً','warning');
         return;
     }
     const r=document.getElementById('externalSignatureResult');
-    r.style.display='block';
-    r.textContent='التوقيع الرقمي الحقيقي لم يتم تفعيله بعد. لم يتم تعديل الملف أو إنشاء توقيع وهمي.';
-    showAlert('لن يتم إنشاء توقيع غير حقيقي. نحتاج خوارزمية/مفتاح التوقيع المعتمد.','warning');
+    try{
+        const keys=getSigningKeys();
+        if(!keys.privateKey||!keys.privateKey.trim()) throw new Error('احفظ المفتاح الخاص المعتمد أولاً من نفس الصفحة.');
+        const parts=splitFile(externalFileContent);
+        if(!parts.signature){
+            const signature=await signBody(parts.body,keys.privateKey);
+            externalFileContent=finalizeFile(parts.body,signature);
+            r.style.display='block';
+            r.textContent='(تم توقيع جسم الملف وإضافة التوقيع) — استخدم زر «تنزيل الملف الموقّع».';
+            showAlert('تمت إضافة توقيع صالح. استخدم «تنزيل الملف الموقّع».','success');
+        }else{
+            externalFileContent=finalizeFile(parts.body,parts.signature);
+            r.style.display='block';
+            r.textContent='التوقيع الموجود بالملف: '+parts.signature;
+        }
+        if(keys.publicKey&&keys.publicKey.trim()){
+            const ok=await verifyBody(parts.body,parts.signature,keys.publicKey);
+            showAlert(ok?'✅ التوقيع في الملف صالح.':'❌ التوقيع في الملف غير صالح / المفتاح غير مطابق.',ok?'success':'danger');
+        }
+    }catch(err){
+        r.style.display='block';
+        r.textContent='';
+        showAlert(err.message,'danger');
+    }
 }
+function downloadSignedExternal(){
+    if(!externalFileContent){ showAlert('الرجاء اختيار ملف أولاً','warning'); return; }
+    const parts=splitFile(externalFileContent);
+    if(!parts.signature){ showAlert('الملف غير موقّع بعد — وقّعه أولاً.','warning'); return; }
+    downloadFile(finalizeFile(parts.body,parts.signature), externalFileName||'signed.txt');
+}
+async function saveSigningKeys(){
+    try{
+        const privatePem=document.getElementById('privateKeyInput').value;
+        const publicPem=document.getElementById('publicKeyInput').value;
+        if(privatePem.trim()){
+            const sig=await signBody('probe',privatePem);
+            if(sig.length!==344) throw new Error('المفتاح الخاص ليس RSA-2048.');
+            if(publicPem.trim()) await importPublicKey(publicPem);
+        }
+        storeSigningKeys({privateKey:privatePem,publicKey:publicPem});
+        document.getElementById('privateKeyInput').value=privatePem?privatePem.replace(/[^\n]+/g,'••••••••••••'):'';
+        showAlert('تم حفظ المفاتيح محليًا في المتصفح فقط.','success');
+    }catch(err){ showAlert(err.message,'danger'); }
+}
+function loadSavedKeys(){
+    const keys=getSigningKeys();
+    document.getElementById('publicKeyInput').value=keys.publicKey||'';
+    document.getElementById('privateKeyInput').value=keys.privateKey?keys.privateKey.replace(/[^\n]+/g,'••••••••••••'):'';
+    const badge=document.getElementById('keyStatus');
+    if(badge){
+        badge.textContent = keys.privateKey?'مفتاح محفوظ: نعم':'مفتاح محفوظ: لا';
+        badge.className='badge '+(keys.privateKey?'badge-success':'badge-warning');
+    }
+}
+function clearSigningKeys(){ storeSigningKeys({privateKey:'',publicKey:''}); loadSavedKeys(); showAlert('تم مسح المفاتيح.','warning'); }
 function loadDatabase(){let s=localStorage.getItem('payroll_db_ibans');dbIbans=s?JSON.parse(s):JSON.parse(JSON.stringify(DEFAULT_DB_IBANS));if(!s)saveDatabase()}
 function saveDatabase(){localStorage.setItem('payroll_db_ibans',JSON.stringify(dbIbans))}
 function renderDatabase(){let tb=document.getElementById('databaseTableBody'),empty=document.getElementById('dbEmptyState'),wrap=document.getElementById('databaseTableContainer');if(!dbIbans.length){wrap.style.display='none';empty.style.display='block';return}wrap.style.display='block';empty.style.display='none';tb.innerHTML=dbIbans.map((x,i)=>`<tr><td>${i+1}</td><td>${escapeHtml(x.name)}</td><td class="iban-cell">${escapeHtml(x.iban)}</td><td>${x.suffix}</td><td><span class="badge badge-success">${x.count}x</span></td><td><span class="badge ${x.active?'badge-success':'badge-warning'}">${x.active?'نشط':'معطل'}</span></td><td><button class="btn btn-secondary" style="padding:6px 12px;font-size:12px" onclick="useDbIban(${i})">استخدام</button> <button class="btn btn-danger" style="padding:6px 12px;font-size:12px" onclick="removeDbIban(${i})"><i class="fas fa-trash"></i></button></td></tr>`).join('')}
