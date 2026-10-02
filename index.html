@@ -29,9 +29,9 @@
 <section id="page-generator" class="page-section active">
 <div class="card"><div class="card-header"><div class="card-icon"><i class="fas fa-building"></i></div><div><div class="card-title">إعدادات الشركة</div><div class="card-subtitle">البيانات الأساسية للدفعة</div></div></div>
 <div class="form-grid">
-<div class="form-group"><label class="form-label">رقم العميل (Client ID) <span class="required">*</span></label><input class="form-input" id="clientId" value="00074550"></div>
-<div class="form-group"><label class="form-label">بادئة الشركة (12 رقم)</label><input class="form-input" id="companyPrefix" value="053860801625" maxlength="12"></div>
-<div class="form-group"><label class="form-label">IBAN المصدر</label><input class="form-input" id="sourceIban" value="SA9880000538608016250103" maxlength="24"></div>
+<div class="form-group"><label class="form-label">رقم العميل (Client ID) <span class="required">*</span></label><input class="form-input" id="clientId" value="00064009"></div>
+<div class="form-group"><label class="form-label">بادئة الشركة (12 رقم)</label><input class="form-input" id="companyPrefix" value="030560801625" maxlength="12"></div>
+<div class="form-group"><label class="form-label">IBAN المصدر</label><input class="form-input" id="sourceIban" value="SA1580000305608016256457" maxlength="24"></div>
 <div class="form-group"><label class="form-label">كود البنك</label><input class="form-input" id="bankCode" value="RJHI" readonly></div>
 <div class="form-group"><label class="form-label">العملة</label><input class="form-input" id="currency" value="SAR" readonly></div>
 <div class="form-group"><label class="form-label">نوع العملية</label><select class="form-select" id="transactionType"><option value="P000">P000 - Payroll</option><option value="C000">C000 - Centralization</option></select></div>
@@ -110,7 +110,17 @@ loadDatabase();normalizeAllEmployees();initEmployees();initRefIds();setDefaultDa
 document.getElementById('csvFileInput').addEventListener('change',handleCsvFile);
 document.getElementById('batchDate').addEventListener('change',generateRefNo);
 document.getElementById('refNoMethod').addEventListener('change',function(){if(this.value==='auto')generateRefNo();document.getElementById('unifiedRefNo').readOnly=this.value==='auto'});
-document.getElementById('companyPrefix').addEventListener('change',function(){if(this.value.length===12)document.getElementById('sourceIban').value='SA98'+'8000'+this.value+'0103'});
+document.getElementById('companyPrefix').addEventListener('change',function(){
+    /* Rebuild the IBAN around the account prefix, keeping the real bank code
+       and check digits instead of hardcoding a single establishment's IBAN. */
+    if(this.value.length!==12) return;
+    const ibanField=document.getElementById('sourceIban');
+    const current=String(ibanField.value||'').trim();
+    const m=current.match(/^(SA\d{2})(\d{4})(\d{12})(\d{4})$/);
+    const bank=m?m[2]:'8000';
+    const suffix=m?m[4]:'6457';
+    ibanField.value='SA15'+bank+this.value+suffix;
+});
 document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('active')}));
 if(localStorage.getItem('payroll_template'))setTimeout(loadTemplate,500);
 /* Any edit to a header/batch field changes the body, so the old
@@ -124,9 +134,9 @@ loadSavedKeys();
 function setDefaultDate(){document.getElementById('batchDate').value=new Date().toISOString().split('T')[0]}
 
 const REFERENCE_TEST_09111963 = {
-    clientId: '00074550',
-    companyPrefix: '053860801625',
-    sourceIban: 'SA9880000538608016250103',
+    clientId: '00064009',
+    companyPrefix: '030560801625',
+    sourceIban: 'SA1580000305608016256457',
     bankCode: 'RJHI',
     currency: 'SAR',
     transactionType: 'P000',
