@@ -159,7 +159,7 @@ const REFERENCE_TEST_09111963 = {
     ]
 };
 
-function loadReferenceTestData(){
+function loadReferenceTestData(quiet){
     const r = REFERENCE_TEST_09111963;
 
     document.getElementById('clientId').value=r.clientId;
@@ -194,7 +194,7 @@ function loadReferenceTestData(){
     initRefIds();
     updateStats();
     refreshPreview();
-    showAlert('تم تحميل بيانات الاختبار المرجعية 09-111963. راجع المعاينة ثم اضغط توليد.', 'success');
+    if(!quiet) showAlert('تم تحميل بيانات الاختبار المرجعية 09-111963. ثم اضغط «توليد وتحميل الملف».', 'success');
 }
 
 function showPage(p){document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');document.querySelector('.nav-btn[data-page="'+p+'"]').classList.add('active');if(p==='preview')refreshPreview();if(p==='database')renderDatabase()}
@@ -773,7 +773,7 @@ async function produceSignedFile() {
 function downloadFile(c,n){let b=new Blob([c],{type:'text/plain;charset=utf-8'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}
 
 async function generateReferenceTestFile(){
-    loadReferenceTestData();
+    loadReferenceTestData(true);
     await generateFile('09-111963_reference_test.txt');
 }
 
@@ -862,8 +862,13 @@ function currentBodyAndSignature(){
 function refreshPreview(){
     const state=currentBodyAndSignature();
     if(state.error){
-        document.getElementById('previewContent').innerHTML=
-            '<span class="detail-line">'+escapeHtml('تعذر بناء المعاينة: '+state.error)+'</span>';
+        /* On first load the dataset is empty (no Record IDs yet), which is not
+           an error worth alarming about. Say what to do instead. */
+        const hint='<div class="info-box"><i class="fas fa-info-circle"></i><p>'
+            +escapeHtml(state.error)
+            +'<br>هذه ليست مشكلة في البرنامج. أدخل بيانات الموظفين و Record ID لكل موظف،'
+            +' أو اضغط «تحميل بيانات الاختبار المرجعية» لتجربة فورية.</p></div>';
+        document.getElementById('previewContent').innerHTML=hint;
         return;
     }
     generatedFileContent=finalizeFile(state.body,state.signature);
