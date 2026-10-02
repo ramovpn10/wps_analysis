@@ -1,0 +1,783 @@
+{
+  "tool": "ELMNFZ Forensic Scanner",
+  "started": "2026-09-09T17:14:20.875Z",
+  "completed": "2026-09-09T17:14:27.892Z",
+  "origin": "https://elmnfz.com",
+  "summary": {
+    "urls_discovered": 30,
+    "pages": 2,
+    "scripts": 6,
+    "requests": 0,
+    "livewire": 1,
+    "crypto": 0,
+    "payload_events": 8,
+    "file_events": 0,
+    "signature_indicators": 0,
+    "source_hits": 10,
+    "errors": 0
+  },
+  "classification": {
+    "conclusion": "لم تتم ملاحظة عملية Sign داخل Web Crypto. قد تكون العملية في الخادم أو تستخدم مكتبة أخرى.",
+    "browser_sign_calls": 0,
+    "browser_digest_calls": 0,
+    "algorithms": [],
+    "signature_indicators": [],
+    "payload_indicators": [
+      {
+        "source": "CURRENT_HTML",
+        "indicators": [
+          "Blob",
+          "File",
+          "btoa",
+          "Base64"
+        ]
+      },
+      {
+        "source": "SCRIPT:https://elmnfz.com/build/assets/landing-page-CjpbYej7.js",
+        "indicators": [
+          "JSON.stringify",
+          "concat",
+          "slice"
+        ]
+      },
+      {
+        "source": "SCRIPT:https://elmnfz.com/livewire/livewire.min.js?id=6d832aed",
+        "indicators": [
+          "JSON.stringify",
+          "Uint8Array",
+          "Blob",
+          "File",
+          "FormData",
+          "btoa",
+          "atob",
+          "concat",
+          "slice",
+          "substring"
+        ]
+      },
+      {
+        "source": "SCRIPT:https://elmnfz.com/build/assets/double-files-CdSU3kB9.js",
+        "indicators": [
+          "ArrayBuffer",
+          "Uint8Array",
+          "Blob",
+          "File",
+          "slice"
+        ]
+      },
+      {
+        "source": "PAGE:https://elmnfz.com/",
+        "indicators": [
+          "File"
+        ]
+      },
+      {
+        "source": "PAGE:https://elmnfz.com/",
+        "indicators": [
+          "File"
+        ]
+      },
+      {
+        "source": "PAGE:https://elmnfz.com/",
+        "indicators": [
+          "File"
+        ]
+      },
+      {
+        "source": "PAGE:https://elmnfz.com/",
+        "indicators": [
+          "File"
+        ]
+      }
+    ]
+  },
+  "discovered_urls": [
+    "https://elmnfz.com/storage/settings/favicon_6a0f5d6938373.webp",
+    "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/css/laravel-toaster-magic.css",
+    "https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css",
+    "https://elmnfz.com/build/assets/landing-page-CjpbYej7.js",
+    "https://elmnfz.com/build/assets/chunk-QTnfLwEv.js",
+    "https://elmnfz.com/",
+    "https://elmnfz.com/storage/settings/logo_6a1ca50183e33.webp",
+    "https://elmnfz.com/tools",
+    "https://elmnfz.com/users/profile",
+    "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/laravel-toaster-magic.js",
+    "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/livewire-toaster-magic-v3.js",
+    "https://elmnfz.com/livewire/livewire.min.js?id=6d832aed",
+    "blob:https://elmnfz.com/e3d376bf-df67-4bec-97d2-b3eafcc36143",
+    "https://elmnfz.com/build/assets/PingAR_LT-Regular-CAojXfMq.otf",
+    "https://elmnfz.com/build/assets/PingAR_LT-Heavy-CmINj0PG.otf",
+    "https://elmnfz.com/build/assets/PingAR_LT-Medium-CyzdZjvq.otf",
+    "https://elmnfz.com/build/assets/fa-solid-900-CTAAxXor.woff2",
+    "https://elmnfz.com/build/assets/PingAR_LT-Bold-D02sU8ck.otf",
+    "https://elmnfz.com/build/assets/fa-regular-400-BjRzuEpd.woff2",
+    "https://elmnfz.com/livewire/update",
+    "https://elmnfz.com/payroll-excel",
+    "https://elmnfz.com/register",
+    "https://elmnfz.com/double-files",
+    "https://elmnfz.com/storage/banners/banner_6a9706d7a01b0.webp",
+    "https://elmnfz.com/storage/banners/banner_6a96f94b2ce65.webp",
+    "https://elmnfz.com/storage/banners/banner_6a96f6b118554.webp",
+    "https://elmnfz.com/storage/banners/banner_6a96fa62ca011.webp",
+    "https://elmnfz.com/build/assets/double-files-CdSU3kB9.js",
+    "https://elmnfz.com/livewire/livewire.min.js.map",
+    "https://elmnfz.com/login"
+  ],
+  "pages": [
+    {
+      "url": "https://elmnfz.com/payroll-excel",
+      "status": 200,
+      "size": 64972
+    },
+    {
+      "url": "https://elmnfz.com/",
+      "status": 200,
+      "size": 22310,
+      "contentType": "text/html; charset=utf-8"
+    }
+  ],
+  "scripts": [
+    {
+      "url": "https://elmnfz.com/build/assets/landing-page-CjpbYej7.js",
+      "status": 200,
+      "size": 62901,
+      "contentType": "application/javascript; charset=utf-8"
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/chunk-QTnfLwEv.js",
+      "status": 200,
+      "size": 694,
+      "contentType": "application/javascript; charset=utf-8"
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/laravel-toaster-magic.js",
+      "status": 200,
+      "size": 10602,
+      "contentType": "application/javascript; charset=utf-8"
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/livewire-toaster-magic-v3.js",
+      "status": 200,
+      "size": 1570,
+      "contentType": "application/javascript; charset=utf-8"
+    },
+    {
+      "url": "https://elmnfz.com/livewire/livewire.min.js?id=6d832aed",
+      "status": 200,
+      "size": 164623,
+      "contentType": "application/javascript; charset=utf-8"
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/double-files-CdSU3kB9.js",
+      "status": 200,
+      "size": 4561,
+      "contentType": "application/javascript; charset=utf-8"
+    }
+  ],
+  "resources": [
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/css/laravel-toaster-magic.css",
+      "initiator": "link",
+      "duration": 51,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css",
+      "initiator": "link",
+      "duration": 27,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/landing-page-CjpbYej7.js",
+      "initiator": "link",
+      "duration": 33,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/chunk-QTnfLwEv.js",
+      "initiator": "link",
+      "duration": 33,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/storage/settings/logo_6a1ca50183e33.webp",
+      "initiator": "img",
+      "duration": 26,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/laravel-toaster-magic.js",
+      "initiator": "script",
+      "duration": 24,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/livewire-toaster-magic-v3.js",
+      "initiator": "script",
+      "duration": 26,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/livewire/livewire.min.js?id=6d832aed",
+      "initiator": "script",
+      "duration": 26,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/PingAR_LT-Regular-CAojXfMq.otf",
+      "initiator": "css",
+      "duration": 42,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/PingAR_LT-Heavy-CmINj0PG.otf",
+      "initiator": "css",
+      "duration": 44,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/PingAR_LT-Medium-CyzdZjvq.otf",
+      "initiator": "css",
+      "duration": 28,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/fa-solid-900-CTAAxXor.woff2",
+      "initiator": "css",
+      "duration": 29,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/PingAR_LT-Bold-D02sU8ck.otf",
+      "initiator": "css",
+      "duration": 34,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/fa-regular-400-BjRzuEpd.woff2",
+      "initiator": "css",
+      "duration": 6,
+      "transferSize": 0
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/eruda",
+      "initiator": "script",
+      "duration": 4,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 2238.9999999999854,
+      "transferSize": 10132
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 513,
+      "transferSize": 10139
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 444,
+      "transferSize": 11079
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/landing-page-CjpbYej7.js",
+      "initiator": "fetch",
+      "duration": 1.999999999985448,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/laravel-toaster-magic.js",
+      "initiator": "fetch",
+      "duration": 1,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/livewire-toaster-magic-v3.js",
+      "initiator": "fetch",
+      "duration": 0.9999999999854481,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/livewire/livewire.min.js?id=6d832aed",
+      "initiator": "fetch",
+      "duration": 1,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/",
+      "initiator": "fetch",
+      "duration": 588.0000000000146,
+      "transferSize": 5388
+    },
+    {
+      "url": "https://elmnfz.com/tools",
+      "initiator": "fetch",
+      "duration": 402.99999999998545,
+      "transferSize": 3020
+    },
+    {
+      "url": "https://elmnfz.com/",
+      "initiator": "fetch",
+      "duration": 421,
+      "transferSize": 5388
+    },
+    {
+      "url": "https://elmnfz.com/",
+      "initiator": "fetch",
+      "duration": 554.9999999999854,
+      "transferSize": 5388
+    },
+    {
+      "url": "https://elmnfz.com/users/profile",
+      "initiator": "fetch",
+      "duration": 368,
+      "transferSize": 4515
+    },
+    {
+      "url": "https://elmnfz.com/users/logout",
+      "initiator": "fetch",
+      "duration": 732,
+      "transferSize": 4214
+    },
+    {
+      "url": "https://elmnfz.com/storage/settings/favicon_6a0f5d6938373.webp",
+      "initiator": "fetch",
+      "duration": 219.00000000001455,
+      "transferSize": 1279
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css",
+      "initiator": "fetch",
+      "duration": 3.999999999985448,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/landing-page-CjpbYej7.js",
+      "initiator": "fetch",
+      "duration": 3,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/chunk-QTnfLwEv.js",
+      "initiator": "fetch",
+      "duration": 3,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/css/laravel-toaster-magic.css",
+      "initiator": "fetch",
+      "duration": 3,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/storage/settings/logo_6a1ca50183e33.webp",
+      "initiator": "fetch",
+      "duration": 2,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/laravel-toaster-magic.js",
+      "initiator": "fetch",
+      "duration": 2,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/livewire-toaster-magic-v3.js",
+      "initiator": "fetch",
+      "duration": 2,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/livewire/livewire.min.js?id=6d832aed",
+      "initiator": "fetch",
+      "duration": 2,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/PingAR_LT-Regular-CAojXfMq.otf",
+      "initiator": "fetch",
+      "duration": 1,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/PingAR_LT-Heavy-CmINj0PG.otf",
+      "initiator": "fetch",
+      "duration": 1,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/PingAR_LT-Medium-CyzdZjvq.otf",
+      "initiator": "fetch",
+      "duration": 1,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/fa-solid-900-CTAAxXor.woff2",
+      "initiator": "fetch",
+      "duration": 1,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/PingAR_LT-Bold-D02sU8ck.otf",
+      "initiator": "fetch",
+      "duration": 1,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/fa-regular-400-BjRzuEpd.woff2",
+      "initiator": "fetch",
+      "duration": 1,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 338,
+      "transferSize": 1320
+    },
+    {
+      "url": "https://elmnfz.com/storage/settings/favicon_6a0f5d6938373.webp",
+      "initiator": "fetch",
+      "duration": 825,
+      "transferSize": 1279
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/css/laravel-toaster-magic.css",
+      "initiator": "fetch",
+      "duration": 415,
+      "transferSize": 13967
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css",
+      "initiator": "fetch",
+      "duration": 2063.999999999942,
+      "transferSize": 158463
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/landing-page-CjpbYej7.js",
+      "initiator": "fetch",
+      "duration": 858,
+      "transferSize": 63273
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/chunk-QTnfLwEv.js",
+      "initiator": "fetch",
+      "duration": 202,
+      "transferSize": 1003
+    },
+    {
+      "url": "https://elmnfz.com/",
+      "initiator": "fetch",
+      "duration": 419,
+      "transferSize": 5299
+    },
+    {
+      "url": "https://elmnfz.com/storage/settings/logo_6a1ca50183e33.webp",
+      "initiator": "fetch",
+      "duration": 217,
+      "transferSize": 1509
+    },
+    {
+      "url": "https://elmnfz.com/tools",
+      "initiator": "fetch",
+      "duration": 360,
+      "transferSize": 2926
+    },
+    {
+      "url": "https://elmnfz.com/users/profile",
+      "initiator": "fetch",
+      "duration": 721,
+      "transferSize": 4215
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/laravel-toaster-magic.js",
+      "initiator": "fetch",
+      "duration": 265.0000000000582,
+      "transferSize": 10920
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/livewire-toaster-magic-v3.js",
+      "initiator": "fetch",
+      "duration": 205,
+      "transferSize": 1879
+    },
+    {
+      "url": "https://elmnfz.com/livewire/livewire.min.js?id=6d832aed",
+      "initiator": "fetch",
+      "duration": 2058,
+      "transferSize": 165139
+    },
+    {
+      "url": "https://elmnfz.com/payroll-excel",
+      "initiator": "fetch",
+      "duration": 538,
+      "transferSize": 5337
+    },
+    {
+      "url": "https://elmnfz.com/register",
+      "initiator": "fetch",
+      "duration": 372,
+      "transferSize": 4217
+    },
+    {
+      "url": "https://elmnfz.com/double-files",
+      "initiator": "fetch",
+      "duration": 386,
+      "transferSize": 3386
+    },
+    {
+      "url": "https://elmnfz.com/storage/banners/banner_6a9706d7a01b0.webp",
+      "initiator": "fetch",
+      "duration": 803,
+      "transferSize": 49480
+    },
+    {
+      "url": "https://elmnfz.com/storage/banners/banner_6a96f94b2ce65.webp",
+      "initiator": "fetch",
+      "duration": 759,
+      "transferSize": 41674
+    },
+    {
+      "url": "https://elmnfz.com/storage/banners/banner_6a96f6b118554.webp",
+      "initiator": "fetch",
+      "duration": 608.9999999999418,
+      "transferSize": 38095
+    },
+    {
+      "url": "https://elmnfz.com/storage/banners/banner_6a96fa62ca011.webp",
+      "initiator": "fetch",
+      "duration": 572,
+      "transferSize": 42238
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/double-files-CdSU3kB9.js",
+      "initiator": "fetch",
+      "duration": 237,
+      "transferSize": 4873
+    }
+  ],
+  "requests": [],
+  "livewire": [
+    {
+      "id": "OCIBzp5EpZx7PjQZDmAG",
+      "component": "users.payroll-excel",
+      "path": "payroll-excel",
+      "method": "GET",
+      "data_keys": [
+        "organization_id",
+        "company_iban",
+        "salary",
+        "employee_ids",
+        "extracted_employee_ids",
+        "extracted_unified_numbers",
+        "employee_ibans"
+      ],
+      "actions": [
+        {
+          "name": "wire:snapshot",
+          "value": "{\"data\":{\"organization_id\":\"12636373\",\"company_iban\":\"SA1180000538608016250699\",\"salary\":\"400\",\"employee_ids\":\"7373737\",\"extracted_employee_ids\":\"\",\"extracted_unified_numbers\":\"\",\"employee_ibans\":\"SA1180000538608016250699\"},\"memo\":{\"id\":\"OCIBzp5EpZx7PjQZDmAG\",\"name\":\"users.payroll-excel\",\"path\":\"payroll-excel\",\"method\":\"GET\",\"release\":\"a-a-a\",\"children\":[],\"scripts\":[],\"assets\":[],\"errors\":{\"employee_ids\":[\"\\u0645\\u0627 \\u0644\\u0642\\u064a\\u0646\\u0627 \\u0647\\u0648\\u064a\\u0629 \\u0635\\u0627\\u0644\\u062d\\u0629 (10 \\u0623\\u0631\\u0642\\u0627\\u0645 \\u062a\\u0628\\u062f\\u0623 \\u0628\\u0640 1 \\u0623\\u0648 2 \\u0623\\u0648 3)\"]},\"locale\":\"ar\"},\"checksum\":\"8d113b5db4c45a8a032a1685d8860a2f0ea86c339594fce318cccf5b9d3e178b\"}"
+        },
+        {
+          "name": "wire:effects",
+          "value": "{\"returns\":[null],\"dispatches\":[{\"name\":\"toastMagic\",\"params\":{\"status\":\"error\",\"title\":\"بيانات غير مكتملة\",\"message\":\"ما لقينا هوية صالحة (10 أرقام تبدأ بـ 1 أو 2 أو 3)\"}}]}"
+        },
+        {
+          "name": "wire:id",
+          "value": "OCIBzp5EpZx7PjQZDmAG"
+        }
+      ]
+    }
+  ],
+  "crypto": [],
+  "payload": [
+    {
+      "source": "CURRENT_HTML",
+      "indicators": [
+        "Blob",
+        "File",
+        "btoa",
+        "Base64"
+      ]
+    },
+    {
+      "source": "SCRIPT:https://elmnfz.com/build/assets/landing-page-CjpbYej7.js",
+      "indicators": [
+        "JSON.stringify",
+        "concat",
+        "slice"
+      ]
+    },
+    {
+      "source": "SCRIPT:https://elmnfz.com/livewire/livewire.min.js?id=6d832aed",
+      "indicators": [
+        "JSON.stringify",
+        "Uint8Array",
+        "Blob",
+        "File",
+        "FormData",
+        "btoa",
+        "atob",
+        "concat",
+        "slice",
+        "substring"
+      ]
+    },
+    {
+      "source": "SCRIPT:https://elmnfz.com/build/assets/double-files-CdSU3kB9.js",
+      "indicators": [
+        "ArrayBuffer",
+        "Uint8Array",
+        "Blob",
+        "File",
+        "slice"
+      ]
+    },
+    {
+      "source": "PAGE:https://elmnfz.com/",
+      "indicators": [
+        "File"
+      ]
+    },
+    {
+      "source": "PAGE:https://elmnfz.com/",
+      "indicators": [
+        "File"
+      ]
+    },
+    {
+      "source": "PAGE:https://elmnfz.com/",
+      "indicators": [
+        "File"
+      ]
+    },
+    {
+      "source": "PAGE:https://elmnfz.com/",
+      "indicators": [
+        "File"
+      ]
+    }
+  ],
+  "file_events": [],
+  "signature_indicators": [],
+  "source_hits": [
+    {
+      "source": "CURRENT_HTML",
+      "matches": [
+        "blob",
+        "file",
+        "base64",
+        "payroll",
+        "salary",
+        "wps",
+        "livewire",
+        "download"
+      ],
+      "size": 64972,
+      "preview": "<html lang=\"ar\" dir=\"rtl\" __gchrome_remoteframetoken=\"e7d4f710d55cb7eb7e2a6a2fefb3d9c5\"><head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta name=\"csrf_token\" content=\"p23PD18GRUlQMQ1n9ov6BKIRuOc4SUlQE93xzVlg\">\n    <title>بوت رفع الملفات — Elmnfz</title>\n            <link rel=\"icon\" href=\"https://elmnfz.com/storage/settings/favicon_6a0f5d6938373.webp\" type=\"image/png\">\n        <link rel=\"stylesheet\" href=\"https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/css/laravel-toaster-magic.css\">\n    <!-- Livewire Styles --><style>[wire\\:loading][wire\\:loading], [wire\\:loading\\.delay][wire\\:loading\\.delay], [wire\\:loading\\.inline-block][wire\\:loading\\.inline-block], [wire\\:loading\\.inline][wire\\:loading\\.inline], [wire\\:loading\\.block][wire\\:loading\\.block], [wire\\:loading\\.flex][wire\\:loading\\.flex], [wire\\:loading\\.table][wire\\:loading\\.table], [wire\\:loading\\.grid][wire\\:loading\\.grid], [wire\\:loading\\.inline-flex][wire\\:loading\\.inline-flex] {display: none;}[wire\\:loading\\.delay\\.none][wire\\:loading\\.delay\\.none], [wire\\:loading\\.delay\\.shortest][wire\\:loading\\.delay\\.shortest], [wire\\:loading\\.delay\\.shorter][wire\\:loading\\.delay\\.shorter], [wire\\:loading\\.delay\\.short][wire\\:loading\\.delay\\.short], [wire\\:loading\\.delay\\.default][wire\\:loading\\.delay\\.default], [wire\\:loading\\.delay\\.long][wire\\:loading\\.delay\\.long], [wire\\:loading\\.delay\\.longer][wire\\:loading\\.delay\\.longer], [wire\\:loading\\.delay\\.longest][wire\\:loading\\.delay\\.longest] {display: none;}[wire\\:offline][wire\\:offline] {display: none;}[wire\\:dirty]:not(textarea):not(input):not(select) {display: none;}:root {--livewire-progress-bar-color: #2299dd;}[x-cloak] {display: none !important;}[wire\\:cloak] {display: none !important;}dialog#livewire-error::backdrop {background-color: rgba(0, 0, 0, .6);}</style>\n    <link rel=\"preload\" as=\"style\" href=\"https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css\"><link rel=\"modulepreload\" as=\"script\" href=\"https://elmnfz.com/build/assets/landing-page-CjpbYej7.js\"><link rel=\"modulepreload\" as=\"script\" href=\"https://elmnfz.com/build/assets/chunk-QTnfLwEv.js\"><link rel=\"stylesheet\" href=\"https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css\" data-navigate-track=\"reload\"><script type=\"module\" src=\"https://elmnfz.com/build/assets/landing-page-CjpbYej7.js\" data-navigate-track=\"reload\"></script><style>/* Make clicks pass-through */\n\n    #nprogress {\n      pointer-events: none;\n    }\n\n  "
+    },
+    {
+      "source": "LIVEWIRE:OCIBzp5EpZx7PjQZDmAG",
+      "matches": [
+        "payroll",
+        "salary"
+      ],
+      "size": 1387,
+      "preview": "{\"id\":\"OCIBzp5EpZx7PjQZDmAG\",\"component\":\"users.payroll-excel\",\"path\":\"payroll-excel\",\"method\":\"GET\",\"data_keys\":[\"organization_id\",\"company_iban\",\"salary\",\"employee_ids\",\"extracted_employee_ids\",\"extracted_unified_numbers\",\"employee_ibans\"],\"actions\":[{\"name\":\"wire:snapshot\",\"value\":\"{\\\"data\\\":{\\\"organization_id\\\":\\\"12636373\\\",\\\"company_iban\\\":\\\"SA1180000538608016250699\\\",\\\"salary\\\":\\\"400\\\",\\\"employee_ids\\\":\\\"7373737\\\",\\\"extracted_employee_ids\\\":\\\"\\\",\\\"extracted_unified_numbers\\\":\\\"\\\",\\\"employee_ibans\\\":\\\"SA1180000538608016250699\\\"},\\\"memo\\\":{\\\"id\\\":\\\"OCIBzp5EpZx7PjQZDmAG\\\",\\\"name\\\":\\\"users.payroll-excel\\\",\\\"path\\\":\\\"payroll-excel\\\",\\\"method\\\":\\\"GET\\\",\\\"release\\\":\\\"a-a-a\\\",\\\"children\\\":[],\\\"scripts\\\":[],\\\"assets\\\":[],\\\"errors\\\":{\\\"employee_ids\\\":[\\\"\\\\u0645\\\\u0627 \\\\u0644\\\\u0642\\\\u064a\\\\u0646\\\\u0627 \\\\u0647\\\\u0648\\\\u064a\\\\u0629 \\\\u0635\\\\u0627\\\\u0644\\\\u062d\\\\u0629 (10 \\\\u0623\\\\u0631\\\\u0642\\\\u0627\\\\u0645 \\\\u062a\\\\u0628\\\\u062f\\\\u0623 \\\\u0628\\\\u0640 1 \\\\u0623\\\\u0648 2 \\\\u0623\\\\u0648 3)\\\"]},\\\"locale\\\":\\\"ar\\\"},\\\"checksum\\\":\\\"8d113b5db4c45a8a032a1685d8860a2f0ea86c339594fce318cccf5b9d3e178b\\\"}\"},{\"name\":\"wire:effects\",\"value\":\"{\\\"returns\\\":[null],\\\"dispatches\\\":[{\\\"name\\\":\\\"toastMagic\\\",\\\"params\\\":{\\\"status\\\":\\\"error\\\",\\\"title\\\":\\\"بيانات غير مكتملة\\\",\\\"message\\\":\\\"ما لقينا هوية صالحة (10 أرقام تبدأ بـ 1 أو 2 أو 3)\\\"}}]}\"},{\"name\":\"wire:id\",\"value\":\"OCIBzp5EpZx7PjQZDmAG\"}]}"
+    },
+    {
+      "source": "SCRIPT:https://elmnfz.com/build/assets/landing-page-CjpbYej7.js",
+      "matches": [
+        "export"
+      ],
+      "size": 62901,
+      "preview": "import{r as e,t}from\"./chunk-QTnfLwEv.js\";var n=!1,r=!1,i=[],a=-1,o=!1,s=!1;function c(e){d(e)}function l(){s=!0}function u(){s=!1,p()}function d(e){i.includes(e)||(i.push(e),e._x_schedulerPriority!==void 0&&(o=!0)),p()}function f(e){let t=i.indexOf(e);t!==-1&&t>a&&i.splice(t,1)}function p(){if(!r&&!n){if(s)return;n=!0,queueMicrotask(m)}}function m(){n=!1,r=!0;for(let e=0;e<i.length;e++)o&&ee(e),i[e](),a=e;i.length=0,a=-1,o=!1,r=!1}function ee(e){let t=new Map,n=i.slice(e).sort((e,n)=>te(e,n,t));for(let t=0;t<n.length;t++)i[e+t]=n[t];o=!1}function te(e,t,n){return ne(e)?ne(t)?re(e._x_schedulerPriority.el,n)-re(t._x_schedulerPriority.el,n)||e._x_schedulerPriority.order-t._x_schedulerPriority.order:-1:+!!ne(t)}function ne(e){return e._x_schedulerPriority!==void 0}function re(e,t){if(t.has(e))return t.get(e);let n=0,r=e;for(;e;)n++,e=e._x_teleportBack?e._x_teleportBack:typeof ShadowRoot==`function`&&e.parentNode instanceof ShadowRoot?e.parentNode.host:e.parentElement;return t.set(r,n),n}var h,g,_,ie,ae=0,oe=!0;function se(e){oe=!1,e(),oe=!0}function ce(e){h=e.reactive,_=e.release,g=t=>e.effect(t,{scheduler:e=>{oe?c(e):e()}}),ie=e.raw}function le(e){g=e}function ue(e){let t=()=>{};return[(n,r)=>{let i=r?.priority===`structural`?ae++:void 0,a=g(n);return i!==void 0&&a!==void 0&&(a._x_schedulerPriority={el:e,order:i}),e._x_effects||(e._x_effects=new Set,e._x_runEffects=()=>{e._x_effects.forEach(e=>e())}),e._x_effects.add(a),t=()=>{a!==void 0&&(e._x_effects.delete(a),_(a))},a},()=>{t()}]}function de(e,t){let n=!0,r,i,a=g(()=>{let a=e(),o=JSON.stringify(a);if(!n&&(typeof a==`object`||a!==r)){let e=typeof r==`object`?JSON.parse(i):r;queueMicrotask(()=>{t(a,e)})}r=a,i=o,n=!1});return()=>_(a)}async function fe(e){l();try{await e(),await Promise.resolve()}finally{u()}}var pe=[],me=[],he=[];function ge(e){he.push(e)}function _e(e,t){typeof t==`function`?(e._x_cleanups||=[],e._x_cleanups.push(t)):(t=e,me.push(t))}function ve(e){pe.push(e)}function ye(e,t,n){e._x_attributeCleanups||={},e._x_attributeCleanups[t]||(e._x_attributeCleanups[t]=[]),e._x_attributeCleanups[t].push(n)}function be(e,t){e._x_attributeCleanups&&Object.entries(e._x_attributeCleanups).forEach(([n,r])=>{(t===void 0||t.includes(n))&&(r.forEach(e=>e()),delete e._x_attributeCleanups[n])})}function xe(e){for(e._x_effects?.forEach(f);e._x_cleanups?.length;)e._x_cleanups.pop()()}var Se=new MutationObserver(Me),Ce=!1;function we(){Se.observe(document,{subtree:!0,childList:!0,attributes:!0,attributeOldValue:!0"
+    },
+    {
+      "source": "SCRIPT:https://elmnfz.com/build/assets/chunk-QTnfLwEv.js",
+      "matches": [
+        "export"
+      ],
+      "size": 694,
+      "preview": "var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=Object.getOwnPropertyNames,i=Object.getPrototypeOf,a=Object.prototype.hasOwnProperty,o=(e,t)=>()=>(t||(e((t={exports:{}}).exports,t),e=null),t.exports),s=(e,n)=>{let r={};for(var i in e)t(r,i,{get:e[i],enumerable:!0});return n||t(r,Symbol.toStringTag,{value:`Module`}),r},c=(e,i,o,s)=>{if(i&&typeof i==`object`||typeof i==`function`)for(var c=r(i),l=0,u=c.length,d;l<u;l++)d=c[l],!a.call(e,d)&&d!==o&&t(e,d,{get:(e=>i[e]).bind(null,d),enumerable:!(s=n(i,d))||s.enumerable});return e},l=(n,r,a)=>(a=n==null?{}:e(i(n)),c(r||!n||!n.__esModule?t(a,`default`,{value:n,enumerable:!0}):a,n));export{s as n,l as r,o as t};"
+    },
+    {
+      "source": "SCRIPT:https://elmnfz.com/livewire/livewire.min.js?id=6d832aed",
+      "matches": [
+        "rsa",
+        "uint8array",
+        "blob",
+        "file",
+        "livewire",
+        "download",
+        "export"
+      ],
+      "size": 164623,
+      "preview": "(()=>{var Pl=Object.create;var Ri=Object.defineProperty;var Ll=Object.getOwnPropertyDescriptor;var Rl=Object.getOwnPropertyNames;var Ml=Object.getPrototypeOf,Il=Object.prototype.hasOwnProperty;var Fl=(e,t)=>()=>(t||e((t={exports:{}}).exports,t),t.exports);var $l=(e,t,r,n)=>{if(t&&typeof t==\"object\"||typeof t==\"function\")for(let i of Rl(t))!Il.call(e,i)&&i!==r&&Ri(e,i,{get:()=>t[i],enumerable:!(n=Ll(t,i))||n.enumerable});return e};var Dl=(e,t,r)=>(r=e!=null?Pl(Ml(e)):{},$l(t||!e||!e.__esModule?Ri(r,\"default\",{value:e,enumerable:!0}):r,e));var qs=Fl((pi,Hs)=>{(function(e,t){typeof define==\"function\"&&define.amd?define(t):typeof pi==\"object\"?Hs.exports=t():e.NProgress=t()})(pi,function(){var e={};e.version=\"0.2.0\";var t=e.settings={minimum:.08,easing:\"ease\",positionUsing:\"\",speed:200,trickle:!0,trickleRate:.02,trickleSpeed:800,showSpinner:!0,barSelector:'[role=\"bar\"]',spinnerSelector:'[role=\"spinner\"]',parent:\"body\",template:'<div class=\"bar\" role=\"bar\"><div class=\"peg\"></div></div><div class=\"spinner\" role=\"spinner\"><div class=\"spinner-icon\"></div></div>'};e.configure=function(f){var p,h;for(p in f)h=f[p],h!==void 0&&f.hasOwnProperty(p)&&(t[p]=h);return this},e.status=null,e.set=function(f){var p=e.isStarted();f=r(f,t.minimum,1),e.status=f===1?null:f;var h=e.render(!p),m=h.querySelector(t.barSelector),v=t.speed,y=t.easing;return h.offsetWidth,o(function(w){t.positionUsing===\"\"&&(t.positionUsing=e.getPositioningCSS()),a(m,i(f,v,y)),f===1?(a(h,{transition:\"none\",opacity:1}),h.offsetWidth,setTimeout(function(){a(h,{transition:\"all \"+v+\"ms linear\",opacity:0}),setTimeout(function(){e.remove(),w()},v)},v)):setTimeout(w,v)}),this},e.isStarted=function(){return typeof e.status==\"number\"},e.start=function(){e.status||e.set(0);var f=function(){setTimeout(function(){!e.status||(e.trickle(),f())},t.trickleSpeed)};return t.trickle&&f(),this},e.done=function(f){return!f&&!e.status?this:e.inc(.3+.5*Math.random()).set(1)},e.inc=function(f){var p=e.status;return p?(typeof f!=\"number\"&&(f=(1-p)*r(Math.random()*p,.1,.95)),p=r(p+f,0,.994),e.set(p)):e.start()},e.trickle=function(){return e.inc(Math.random()*t.trickleRate)},function(){var f=0,p=0;e.promise=function(h){return!h||h.state()===\"resolved\"?this:(p===0&&e.start(),f++,p++,h.always(function(){p--,p===0?(f=0,e.done()):e.set((f-p)/f)}),this)}}(),e.render=function(f){if(e.isRendered())return document.getElementById(\"nprogress\");l(document.documentElement,\"nprogress-busy\");var p=document.createElement(\"div\");p.id=\"nprogress\","
+    },
+    {
+      "source": "SCRIPT:https://elmnfz.com/build/assets/double-files-CdSU3kB9.js",
+      "matches": [
+        "arraybuffer",
+        "uint8array",
+        "blob",
+        "file",
+        "download"
+      ],
+      "size": 4561,
+      "preview": "document.addEventListener(`DOMContentLoaded`,()=>{let e=e=>document.getElementById(e),t=document.querySelector(`.double-files-wrapper`),n=e(`files`),r=e(`drop`),i=e(`copies`),a=e(`copies-display`),o=e(`copies-minus`),s=e(`copies-plus`),c=e(`list`),l=e(`build`),u=e(`clear`),d=e(`bar`),f=e(`progress`),p=e(`status`),m=document.querySelectorAll(`.copies-preset`);if(!t||!n||!r||!i||!c||!l)return;let h={processing:t.dataset.processing||`Processing :done/:total`,downloading:t.dataset.downloading||`Downloading...`,success:t.dataset.success||`Download complete.`,error:t.dataset.error||`Error:`,filesHint:t.dataset.filesHint||`:count files selected — click to add more`},g=[],_=e=>e.replace(/[&<>\"']/g,e=>({\"&\":`&amp;`,\"<\":`&lt;`,\">\":`&gt;`,'\"':`&quot;`,\"'\":`&#39;`})[e]),v=e=>e<1024?e+` B`:e<1048576?(e/1024).toFixed(1)+` KB`:(e/1048576).toFixed(1)+` MB`;function y(){let e=parseInt(i.value||10,10);return Number.isFinite(e)||(e=10),e=Math.max(1,Math.min(10,e)),i.value=e,e}function b(e){e=Math.max(1,Math.min(10,e)),i.value=e,a&&(a.textContent=e),o&&(o.disabled=e<=1),s&&(s.disabled=e>=10),m.forEach(t=>{t.classList.toggle(`active`,parseInt(t.dataset.value,10)===e)})}function x(e){b(e),T()}function S(e){let t=e.lastIndexOf(`.`);return t>0?[e.slice(0,t),e.slice(t)]:[e,`.txt`]}function C(e){return e.replace(/[\\\\/:*?\"<>|\\u0000-\\u001f]/g,`_`).replace(/[. ]+$/g,``)||`file`}function w(e,t){let n=C(e),r=g.slice(0,t).filter(e=>C(S(e.name)[0])===n).length;return r?`${n}_${r+1}`:n}function T(){y(),l.disabled=!g.length,u&&(u.disabled=!g.length);let e=r.querySelector(`.dropzone-hint`);if(r.classList.toggle(`has-files`,g.length>0),e&&(e.textContent=g.length?h.filesHint.replace(`:count`,g.length):e.dataset.defaultHint||e.textContent),!g.length){c.classList.add(`hidden`),c.innerHTML=``;return}c.classList.remove(`hidden`),c.innerHTML=g.map((e,t)=>`<div class=\"double-files-item\">\n                        <div class=\"file-info\">\n                            <i class=\"fa-solid fa-file-lines file-icon\"></i>\n                            <div class=\"file-name\" title=\"${_(e.name)}\">${_(e.name)}</div>\n                        </div>\n                        <div class=\"file-meta\">\n                            <span class=\"file-size\">${v(e.size)}</span>\n                            <button type=\"button\" data-i=\"${t}\" class=\"file-delete-btn\" title=\"×\">\n                                <i class=\"fa-solid fa-trash-can\" data-i=\"${t}\"></i>\n                            </button>\n                        </div>\n    "
+    },
+    {
+      "source": "PAGE:https://elmnfz.com/",
+      "matches": [
+        "file",
+        "payroll",
+        "wage",
+        "wps",
+        "download"
+      ],
+      "size": 22310,
+      "preview": "<!DOCTYPE html>\n<html lang=\"ar\" dir=\"rtl\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Elmnfz — أدوات الملفات</title>\n    <meta name=\"description\" content=\"Elmnfz \">\n            <link rel=\"icon\" href=\"https://elmnfz.com/storage/settings/favicon_6a0f5d6938373.webp\" type=\"image/png\">\n            <link rel=\"preload\" as=\"style\" href=\"https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css\" /><link rel=\"modulepreload\" as=\"script\" href=\"https://elmnfz.com/build/assets/landing-page-CjpbYej7.js\" /><link rel=\"modulepreload\" as=\"script\" href=\"https://elmnfz.com/build/assets/chunk-QTnfLwEv.js\" /><link rel=\"stylesheet\" href=\"https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css\" data-navigate-track=\"reload\" /><script type=\"module\" src=\"https://elmnfz.com/build/assets/landing-page-CjpbYej7.js\" data-navigate-track=\"reload\"></script></head>\n\n<body>\n        <div\n    x-data=\"{ open: false, scrolled: false, hidden: false, lastY: 0 }\"\n    x-init=\"\n        lastY = window.scrollY;\n        window.addEventListener('scroll', () => {\n            const y = window.scrollY;\n            const goingDown = y > lastY;\n                            scrolled = y > 60;\n                        if (goingDown && y > 220) { hidden = true; }\n            else if (!goingDown) { hidden = false; }\n            lastY = y;\n        }, { passive: true });\n    \"\n    x-effect=\"document.body.style.overflow = open ? 'hidden' : ''\"\n>\n    <header\n        class=\"site-nav \"\n        :class=\"{ 'site-nav--solid': scrolled, 'site-nav--hidden': hidden }\"\n    >\n        <div class=\"container site-nav__inner\">\n            <a href=\"https://elmnfz.com\" class=\"site-nav__brand\">\n                                    <img src=\"https://elmnfz.com/storage/settings/logo_6a1ca50183e33.webp\" alt=\"Elmnfz\">\n                            </a>\n\n            <nav class=\"site-nav__links\" aria-label=\"التنقل الرئيسي\">\n                <a href=\"https://elmnfz.com\" class=\"site-nav__link site-nav__link--active\">الرئيسية</a>\n                <a href=\"https://elmnfz.com/tools\" class=\"site-nav__link\">الأدوات</a>\n                <a href=\"https://elmnfz.com/#how-it-works\" class=\"site-nav__link\">كيف تشتغل</a>\n                <a href=\"https://elmnfz.com/#faq\" class=\"site-nav__link\">الأسئلة الشائعة</a>\n            </nav>\n\n            <div class=\"site-nav__actions\">\n                <span class=\"site-nav__cta\">\n                                            <a href=\"https://elmnfz"
+    },
+    {
+      "source": "PAGE:https://elmnfz.com/",
+      "matches": [
+        "file",
+        "payroll",
+        "wage",
+        "wps",
+        "download"
+      ],
+      "size": 22310,
+      "preview": "<!DOCTYPE html>\n<html lang=\"ar\" dir=\"rtl\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Elmnfz — أدوات الملفات</title>\n    <meta name=\"description\" content=\"Elmnfz \">\n            <link rel=\"icon\" href=\"https://elmnfz.com/storage/settings/favicon_6a0f5d6938373.webp\" type=\"image/png\">\n            <link rel=\"preload\" as=\"style\" href=\"https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css\" /><link rel=\"modulepreload\" as=\"script\" href=\"https://elmnfz.com/build/assets/landing-page-CjpbYej7.js\" /><link rel=\"modulepreload\" as=\"script\" href=\"https://elmnfz.com/build/assets/chunk-QTnfLwEv.js\" /><link rel=\"stylesheet\" href=\"https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css\" data-navigate-track=\"reload\" /><script type=\"module\" src=\"https://elmnfz.com/build/assets/landing-page-CjpbYej7.js\" data-navigate-track=\"reload\"></script></head>\n\n<body>\n        <div\n    x-data=\"{ open: false, scrolled: false, hidden: false, lastY: 0 }\"\n    x-init=\"\n        lastY = window.scrollY;\n        window.addEventListener('scroll', () => {\n            const y = window.scrollY;\n            const goingDown = y > lastY;\n                            scrolled = y > 60;\n                        if (goingDown && y > 220) { hidden = true; }\n            else if (!goingDown) { hidden = false; }\n            lastY = y;\n        }, { passive: true });\n    \"\n    x-effect=\"document.body.style.overflow = open ? 'hidden' : ''\"\n>\n    <header\n        class=\"site-nav \"\n        :class=\"{ 'site-nav--solid': scrolled, 'site-nav--hidden': hidden }\"\n    >\n        <div class=\"container site-nav__inner\">\n            <a href=\"https://elmnfz.com\" class=\"site-nav__brand\">\n                                    <img src=\"https://elmnfz.com/storage/settings/logo_6a1ca50183e33.webp\" alt=\"Elmnfz\">\n                            </a>\n\n            <nav class=\"site-nav__links\" aria-label=\"التنقل الرئيسي\">\n                <a href=\"https://elmnfz.com\" class=\"site-nav__link site-nav__link--active\">الرئيسية</a>\n                <a href=\"https://elmnfz.com/tools\" class=\"site-nav__link\">الأدوات</a>\n                <a href=\"https://elmnfz.com/#how-it-works\" class=\"site-nav__link\">كيف تشتغل</a>\n                <a href=\"https://elmnfz.com/#faq\" class=\"site-nav__link\">الأسئلة الشائعة</a>\n            </nav>\n\n            <div class=\"site-nav__actions\">\n                <span class=\"site-nav__cta\">\n                                            <a href=\"https://elmnfz"
+    },
+    {
+      "source": "PAGE:https://elmnfz.com/",
+      "matches": [
+        "file",
+        "payroll",
+        "wage",
+        "wps",
+        "download"
+      ],
+      "size": 22310,
+      "preview": "<!DOCTYPE html>\n<html lang=\"ar\" dir=\"rtl\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Elmnfz — أدوات الملفات</title>\n    <meta name=\"description\" content=\"Elmnfz \">\n            <link rel=\"icon\" href=\"https://elmnfz.com/storage/settings/favicon_6a0f5d6938373.webp\" type=\"image/png\">\n            <link rel=\"preload\" as=\"style\" href=\"https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css\" /><link rel=\"modulepreload\" as=\"script\" href=\"https://elmnfz.com/build/assets/landing-page-CjpbYej7.js\" /><link rel=\"modulepreload\" as=\"script\" href=\"https://elmnfz.com/build/assets/chunk-QTnfLwEv.js\" /><link rel=\"stylesheet\" href=\"https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css\" data-navigate-track=\"reload\" /><script type=\"module\" src=\"https://elmnfz.com/build/assets/landing-page-CjpbYej7.js\" data-navigate-track=\"reload\"></script></head>\n\n<body>\n        <div\n    x-data=\"{ open: false, scrolled: false, hidden: false, lastY: 0 }\"\n    x-init=\"\n        lastY = window.scrollY;\n        window.addEventListener('scroll', () => {\n            const y = window.scrollY;\n            const goingDown = y > lastY;\n                            scrolled = y > 60;\n                        if (goingDown && y > 220) { hidden = true; }\n            else if (!goingDown) { hidden = false; }\n            lastY = y;\n        }, { passive: true });\n    \"\n    x-effect=\"document.body.style.overflow = open ? 'hidden' : ''\"\n>\n    <header\n        class=\"site-nav \"\n        :class=\"{ 'site-nav--solid': scrolled, 'site-nav--hidden': hidden }\"\n    >\n        <div class=\"container site-nav__inner\">\n            <a href=\"https://elmnfz.com\" class=\"site-nav__brand\">\n                                    <img src=\"https://elmnfz.com/storage/settings/logo_6a1ca50183e33.webp\" alt=\"Elmnfz\">\n                            </a>\n\n            <nav class=\"site-nav__links\" aria-label=\"التنقل الرئيسي\">\n                <a href=\"https://elmnfz.com\" class=\"site-nav__link site-nav__link--active\">الرئيسية</a>\n                <a href=\"https://elmnfz.com/tools\" class=\"site-nav__link\">الأدوات</a>\n                <a href=\"https://elmnfz.com/#how-it-works\" class=\"site-nav__link\">كيف تشتغل</a>\n                <a href=\"https://elmnfz.com/#faq\" class=\"site-nav__link\">الأسئلة الشائعة</a>\n            </nav>\n\n            <div class=\"site-nav__actions\">\n                <span class=\"site-nav__cta\">\n                                            <a href=\"https://elmnfz"
+    },
+    {
+      "source": "PAGE:https://elmnfz.com/",
+      "matches": [
+        "file",
+        "payroll",
+        "wage",
+        "wps",
+        "download"
+      ],
+      "size": 22310,
+      "preview": "<!DOCTYPE html>\n<html lang=\"ar\" dir=\"rtl\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Elmnfz — أدوات الملفات</title>\n    <meta name=\"description\" content=\"Elmnfz \">\n            <link rel=\"icon\" href=\"https://elmnfz.com/storage/settings/favicon_6a0f5d6938373.webp\" type=\"image/png\">\n            <link rel=\"preload\" as=\"style\" href=\"https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css\" /><link rel=\"modulepreload\" as=\"script\" href=\"https://elmnfz.com/build/assets/landing-page-CjpbYej7.js\" /><link rel=\"modulepreload\" as=\"script\" href=\"https://elmnfz.com/build/assets/chunk-QTnfLwEv.js\" /><link rel=\"stylesheet\" href=\"https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css\" data-navigate-track=\"reload\" /><script type=\"module\" src=\"https://elmnfz.com/build/assets/landing-page-CjpbYej7.js\" data-navigate-track=\"reload\"></script></head>\n\n<body>\n        <div\n    x-data=\"{ open: false, scrolled: false, hidden: false, lastY: 0 }\"\n    x-init=\"\n        lastY = window.scrollY;\n        window.addEventListener('scroll', () => {\n            const y = window.scrollY;\n            const goingDown = y > lastY;\n                            scrolled = y > 60;\n                        if (goingDown && y > 220) { hidden = true; }\n            else if (!goingDown) { hidden = false; }\n            lastY = y;\n        }, { passive: true });\n    \"\n    x-effect=\"document.body.style.overflow = open ? 'hidden' : ''\"\n>\n    <header\n        class=\"site-nav \"\n        :class=\"{ 'site-nav--solid': scrolled, 'site-nav--hidden': hidden }\"\n    >\n        <div class=\"container site-nav__inner\">\n            <a href=\"https://elmnfz.com\" class=\"site-nav__brand\">\n                                    <img src=\"https://elmnfz.com/storage/settings/logo_6a1ca50183e33.webp\" alt=\"Elmnfz\">\n                            </a>\n\n            <nav class=\"site-nav__links\" aria-label=\"التنقل الرئيسي\">\n                <a href=\"https://elmnfz.com\" class=\"site-nav__link site-nav__link--active\">الرئيسية</a>\n                <a href=\"https://elmnfz.com/tools\" class=\"site-nav__link\">الأدوات</a>\n                <a href=\"https://elmnfz.com/#how-it-works\" class=\"site-nav__link\">كيف تشتغل</a>\n                <a href=\"https://elmnfz.com/#faq\" class=\"site-nav__link\">الأسئلة الشائعة</a>\n            </nav>\n\n            <div class=\"site-nav__actions\">\n                <span class=\"site-nav__cta\">\n                                            <a href=\"https://elmnfz"
+    }
+  ],
+  "errors": []
+}

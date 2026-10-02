@@ -1,0 +1,137 @@
+{
+  "started": "2026-09-09T16:55:06.845Z",
+  "exported": "2026-09-09T16:55:37.055Z",
+  "page": "https://elmnfz.com/payroll-excel",
+  "eventCount": 1,
+  "events": [
+    {
+      "seq": 1,
+      "time": "2026-09-09T16:55:06.846Z",
+      "type": "INITIAL_RESOURCES",
+      "page": "https://elmnfz.com/payroll-excel",
+      "count": 15,
+      "resources": [
+        {
+          "name": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/css/laravel-toaster-magic.css",
+          "initiatorType": "link",
+          "duration": 0,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "name": "https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css",
+          "initiatorType": "link",
+          "duration": 0,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "name": "https://elmnfz.com/build/assets/landing-page-CjpbYej7.js",
+          "initiatorType": "link",
+          "duration": 0,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "name": "https://elmnfz.com/build/assets/chunk-QTnfLwEv.js",
+          "initiatorType": "link",
+          "duration": 0,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "name": "https://elmnfz.com/storage/settings/logo_6a1ca50183e33.webp",
+          "initiatorType": "img",
+          "duration": 0,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "name": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/laravel-toaster-magic.js",
+          "initiatorType": "script",
+          "duration": 0,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "name": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/livewire-toaster-magic-v3.js",
+          "initiatorType": "script",
+          "duration": 0,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "name": "https://elmnfz.com/livewire/livewire.min.js?id=6d832aed",
+          "initiatorType": "script",
+          "duration": 0,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "name": "https://cdn.jsdelivr.net/npm/eruda",
+          "initiatorType": "script",
+          "duration": 0,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "name": "https://elmnfz.com/livewire/update",
+          "initiatorType": "fetch",
+          "duration": 474,
+          "transferSize": 10143,
+          "encodedBodySize": 9843,
+          "decodedBodySize": 9816
+        },
+        {
+          "name": "https://elmnfz.com/livewire/update",
+          "initiatorType": "fetch",
+          "duration": 443.00000000000364,
+          "transferSize": 10152,
+          "encodedBodySize": 9852,
+          "decodedBodySize": 9825
+        },
+        {
+          "name": "https://elmnfz.com/livewire/update",
+          "initiatorType": "fetch",
+          "duration": 442.99999999999636,
+          "transferSize": 10155,
+          "encodedBodySize": 9855,
+          "decodedBodySize": 9828
+        },
+        {
+          "name": "https://elmnfz.com/livewire/update",
+          "initiatorType": "fetch",
+          "duration": 468,
+          "transferSize": 10574,
+          "encodedBodySize": 10274,
+          "decodedBodySize": 10247
+        },
+        {
+          "name": "https://elmnfz.com/livewire/update",
+          "initiatorType": "fetch",
+          "duration": 433,
+          "transferSize": 10142,
+          "encodedBodySize": 9842,
+          "decodedBodySize": 9815
+        },
+        {
+          "name": "https://elmnfz.com/livewire/update",
+          "initiatorType": "fetch",
+          "duration": 435,
+          "transferSize": 11082,
+          "encodedBodySize": 10782,
+          "decodedBodySize": 10755
+        }
+      ]
+    }
+  ]
+}

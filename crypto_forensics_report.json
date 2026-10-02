@@ -1,0 +1,226 @@
+{
+  "tool": "ELMNFZ Crypto Forensics",
+  "started": "2026-09-09T21:21:22.739Z",
+  "completed": "2026-09-09T21:21:48.454Z",
+  "origin": "https://elmnfz.com",
+  "summary": {
+    "urls": 15,
+    "requests": 0,
+    "cryptoEvents": 0,
+    "actualSignCalls": 0,
+    "actualDigestCalls": 0,
+    "publicKeyFindings": 0,
+    "sourceHits": 1,
+    "errors": 0,
+    "conclusion": "لم يتم رصد عملية Sign بواسطة WebCrypto؛ قد تكون العملية في الخادم أو في مكتبة أخرى."
+  },
+  "algorithms": [
+    "certificate"
+  ],
+  "public_keys": [],
+  "certificates": [],
+  "crypto_events": [],
+  "source_hits": [
+    {
+      "time": "2026-09-09T21:21:22.919Z",
+      "source": "https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css",
+      "type": "certificate",
+      "value": "fa:\"\"}.fa-marker{--fa:\"\"}.fa-face-laugh-beam,.fa-laugh-beam{--fa:\"\"}.fa-helicopter-symbol{--fa:\"\"}.fa-universal-access{--fa:\"\"}.fa-chevron-circle-up,.fa-circle-chevron-up{--fa:\"\"}.fa-lari-sign{--fa:\"\"}.fa-volcano{--fa:\"\"}.fa-person-walking-dashed-line-arrow-right{--fa:\"\"}.fa-gbp,.fa-pound-sign,.fa-sterling-sign{--fa:\"\"}.fa-viruses{--fa:\"\"}.fa-square-person-confined{--fa:\"\"}.fa-user-tie{--fa:\"\"}.fa-arrow-down-long,.fa-long-arrow-down{--fa:\"\"}.fa-tent-arrow-down-to-line{--fa:\"\"}.fa-certificate{--fa:\"\"}.fa-mail-reply-all,.fa-reply-all{--fa:\"\"}.fa-suitcase{--fa:\"\"}.fa-person-skating,.fa-skating{--fa:\"\"}.fa-filter-circle-dollar,.fa-funnel-dollar{--fa:\"\"}.fa-camera-retro{--fa:\"\"}.fa-arrow-circle-down,.fa-circle-arrow-down{--fa:\"\"}.fa-arrow-right-to-file,.fa-file-import{--fa:\"\"}.fa-external-link-square,.fa-square-arrow-up-right{--fa:\"\"}.fa-box-open{--fa:\"\"}.fa-scroll{--fa:\"\"}.fa-spa{--fa:\"\"}.fa-location-pin-lock{--fa:\"\"}.fa-pause{--fa:\"\"}.fa-hill-avalanche{--fa:\"\"}.fa-temperature-0,.fa-temperature-empty,.fa-thermometer-0,.fa-thermometer-empty{--fa:\"\"}.fa-bomb{--fa:\"\"}.fa-registered{--fa:\"\"}.fa-address-card,.fa-contact-card,.fa-vcard{--fa:\"\"}.fa-balance-scale-right,.fa-scale-unbalanced-flip{--fa:\"\"}.fa-subscript{--fa:\"\"}.fa-diamond-turn-right,.fa-directions{--fa:\"\"}.fa-burst{--fa:\"\"}.fa-house-laptop,.fa-laptop-house{--fa:\"\"}.fa-face-tired,.fa-tired{--fa:\"\"}.fa-money-bills{--fa:\"\"}.fa-smog{--fa:\"\"}.fa-crutch{--fa:\"\"}.fa-cloud-arrow-up,.fa-cloud-upload,.fa-cloud-upload-alt{--fa:\"\"}.fa-palette{--fa:\"\"}.fa-arrows-turn-right{--fa:\"\"}.fa-vest{--fa:\"\"}.fa-ferry{--fa:\"\"}.fa-arrows-down-to-people{--fa:\"\"}.fa-seedling,.fa-sprout{--fa:\"\"}.fa-arrows-alt-h,.fa-left-right{--fa:\"\"}.fa-boxes-packing{--fa:\"\"}.fa-arrow-circle-left,.fa-circle-arrow-left{--fa:\"\"}.fa-group-arrows-rotate{--fa:\"\"}.fa-bowl-food{--fa:\"\"}.fa-candy-cane{--fa:\"\"}.fa-arrow-down-wide-short,.fa-sort-amount-asc,.fa-sort-amount-down{--fa:\"\"}.fa-cloud-bolt,.fa-thunder"
+    }
+  ],
+  "requests": [],
+  "resources": [
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/css/laravel-toaster-magic.css",
+      "initiator": "link",
+      "duration": 0,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css",
+      "initiator": "link",
+      "duration": 0,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/landing-page-CjpbYej7.js",
+      "initiator": "link",
+      "duration": 0,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/chunk-QTnfLwEv.js",
+      "initiator": "link",
+      "duration": 0,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/storage/settings/logo_6a1ca50183e33.webp",
+      "initiator": "img",
+      "duration": 0,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/laravel-toaster-magic.js",
+      "initiator": "script",
+      "duration": 0,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/livewire-toaster-magic-v3.js",
+      "initiator": "script",
+      "duration": 0,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/livewire/livewire.min.js?id=6d832aed",
+      "initiator": "script",
+      "duration": 0,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 600,
+      "transferSize": 10142
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/eruda",
+      "initiator": "script",
+      "duration": 0,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 561,
+      "transferSize": 11082
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 570,
+      "transferSize": 10684
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 598.0000000000073,
+      "transferSize": 10686
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 573,
+      "transferSize": 10703
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 817,
+      "transferSize": 10572
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 1119.0000000000073,
+      "transferSize": 10572
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 1389,
+      "transferSize": 10572
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 593,
+      "transferSize": 10142
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 597.9999999999709,
+      "transferSize": 11082
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/landing-page-CjpbYej7.js",
+      "initiator": "fetch",
+      "duration": 1513.9999999999418,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/laravel-toaster-magic.js",
+      "initiator": "fetch",
+      "duration": 4,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/livewire-toaster-magic-v3.js",
+      "initiator": "fetch",
+      "duration": 2.9999999999417923,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/livewire/livewire.min.js?id=6d832aed",
+      "initiator": "fetch",
+      "duration": 3,
+      "transferSize": 0
+    },
+    {
+      "url": "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/css/laravel-toaster-magic.css",
+      "initiator": "fetch",
+      "duration": 3,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css",
+      "initiator": "fetch",
+      "duration": 418,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/storage/settings/logo_6a1ca50183e33.webp",
+      "initiator": "fetch",
+      "duration": 2.9999999999417923,
+      "transferSize": 300
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 605,
+      "transferSize": 11082
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 589,
+      "transferSize": 10703
+    },
+    {
+      "url": "https://elmnfz.com/livewire/update",
+      "initiator": "fetch",
+      "duration": 564.0000000000582,
+      "transferSize": 10572
+    }
+  ],
+  "discovered_urls": [
+    "https://elmnfz.com/storage/settings/favicon_6a0f5d6938373.webp",
+    "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/css/laravel-toaster-magic.css",
+    "https://elmnfz.com/build/assets/landing-page-CBwR-QPa.css",
+    "https://elmnfz.com/build/assets/landing-page-CjpbYej7.js",
+    "https://elmnfz.com/build/assets/chunk-QTnfLwEv.js",
+    "https://elmnfz.com/",
+    "https://elmnfz.com/storage/settings/logo_6a1ca50183e33.webp",
+    "https://elmnfz.com/tools",
+    "https://elmnfz.com/users/profile",
+    "https://elmnfz.com/users/logout",
+    "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/laravel-toaster-magic.js",
+    "https://elmnfz.com/packages/devrabiul/laravel-toaster-magic/js/livewire-v3/livewire-toaster-magic-v3.js",
+    "https://elmnfz.com/livewire/livewire.min.js?id=6d832aed",
+    "https://elmnfz.com/livewire/update",
+    "https://elmnfz.com/livewire/livewire.min.js.map"
+  ],
+  "errors": []
+}
