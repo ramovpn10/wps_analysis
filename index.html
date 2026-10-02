@@ -71,7 +71,7 @@
 </div>
 <div class="card" style="text-align:center;padding:40px"><i class="fas fa-file-alt" style="font-size:48px;color:var(--primary-light);margin-bottom:16px"></i><h2 style="font-size:22px;margin-bottom:8px">توليد ملف الرواتب</h2><p style="color:var(--text-muted);font-size:14px;margin-bottom:24px">Header 122 → Details fixed-width → Separator → Signature</p><div class="btn-group" style="justify-content:center"><button class="btn btn-warning" onclick="loadReferenceTestData()"><i class="fas fa-vial"></i> تحميل بيانات الاختبار المرجعية</button>
                     <button class="btn btn-success" onclick="generateReferenceTestFile()"><i class="fas fa-file-download"></i> توليد ملف الاختبار</button>
-                    <button class="btn btn-primary" onclick="generateFile()"><i class="fas fa-download"></i> توليد وتحميل الملف</button><button class="btn btn-secondary" onclick="showPage('preview')"><i class="fas fa-eye"></i> معاينة الملف</button><button class="btn btn-success" onclick="saveTemplate()"><i class="fas fa-save"></i> حفظ القالب</button><button class="btn btn-warning" onclick="downloadUnsignedBody()"><i class="fas fa-file-export"></i> تنزيل بدون توقيع (فحص فقط)</button></div></div>
+                    <button class="btn btn-primary" onclick="generateFile()"><i class="fas fa-download"></i> توليد وتحميل الملف</button><button class="btn btn-secondary" onclick="checkMandatoryFields()"><i class="fas fa-list-check"></i> فحص الحقول الإلزامية</button><button class="btn btn-secondary" onclick="showPage('preview')"><i class="fas fa-eye"></i> معاينة الملف</button><button class="btn btn-success" onclick="saveTemplate()"><i class="fas fa-save"></i> حفظ القالب</button><button class="btn btn-warning" onclick="downloadUnsignedBody()"><i class="fas fa-file-export"></i> تنزيل بدون توقيع (فحص فقط)</button></div></div>
 </section>
 
 <section id="page-database" class="page-section"><div class="card"><div class="card-header"><div class="card-icon"><i class="fas fa-database"></i></div><div><div class="card-title">قاعدة بيانات الـ IBANات</div><div class="card-subtitle">الـ IBANات المحفوظة</div></div></div><div class="btn-group" style="margin-bottom:20px"><button class="btn btn-primary" onclick="addIbanToDb()"><i class="fas fa-plus"></i> إضافة IBAN جديد</button><button class="btn btn-secondary" onclick="importDefaultIbans()"><i class="fas fa-download"></i> استيراد الافتراضي</button><button class="btn btn-danger" onclick="clearDatabase()"><i class="fas fa-trash"></i> مسح القاعدة</button></div><div id="databaseTableContainer"><table class="db-table"><thead><tr><th>#</th><th>اسم الموظف</th><th>IBAN</th><th>اللاحقة</th><th>التكرار</th><th>الحالة</th><th>إجراءات</th></tr></thead><tbody id="databaseTableBody"></tbody></table></div><div class="empty-state" id="dbEmptyState" style="display:none"><i class="fas fa-inbox"></i><h3>قاعدة البيانات فارغة</h3><p>اضغط على استيراد الافتراضي</p></div></div></section>
@@ -280,6 +280,49 @@ function makeRefNo() {
     return `${yyyy}${mm}${dd}${hh}${mi}${ss}${ff}`;
 }
 
+/*
+ * Mudad's own error report lists these header columns, and rejects the whole
+ * file with "File Format incorrect or corrupted - Mandatory field missing"
+ * when any of them is blank. A blank field is emitted as spaces by padRight(),
+ * so the file looks well-formed and is only refused at upload time. We refuse
+ * it here instead, with the name of the field.
+ */
+const MANDATORY_HEADER_FIELDS = [
+    { id: 'bankCode',        label: 'كود البنك',                 pattern: /^[A-Z0-9]{1,4}$/ },
+    { id: 'clientId',        label: 'رقم العميل (Client ID)',    pattern: /^[0-9]{1,10}$/ },
+    { id: 'sourceIban',      label: 'IBAN المصدر',               pattern: /^SA[0-9]{22}$/ },
+    { id: 'currency',        label: 'العملة',                    pattern: /^[A-Z]{3}$/ },
+    { id: 'batchDate',       label: 'تاريخ الدفعة',              pattern: /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/ },
+    { id: 'refNo',           label: 'الرقم الموحد RefNo',        pattern: /^[0-9A-Za-z]{1,16}$/ },
+    { id: 'transactionType', label: 'نوع العملية',               pattern: /^[A-Z0-9]{1,6}$/ },
+    { id: 'batchId',         label: 'رقم الدفعة',                pattern: /^[0-9A-Za-z-]{1,18}$/ },
+    { id: 'sessionId',       label: 'معرف الجلسة',               pattern: /^[0-9]{6}$/ }
+];
+
+function validateMandatoryFields() {
+    const problems = [];
+    for (const f of MANDATORY_HEADER_FIELDS) {
+        const el = document.getElementById(f.id);
+        let raw = el ? String(el.value || '').trim() : '';
+        // refNo falls back to the auto-generated unified number
+        if (!raw && f.id === 'refNo') {
+            const u = document.getElementById('unifiedRefNo');
+            raw = u ? String(u.value || '').trim() : '';
+        }
+        if (!raw) {
+            problems.push(`الحقل الإلزامي «${f.label}» فارغ`);
+            continue;
+        }
+        if (f.pattern && !f.pattern.test(raw)) {
+            problems.push(`الحقل «${f.label}» بصيغة غير صحيحة: "${raw}"`);
+        }
+    }
+    if (!employees.some(e => e.active)) {
+        problems.push('لا يوجد موظفون نشطون — الملف سيكون بلا أسطر');
+    }
+    return problems;
+}
+
 function buildHeader() {
     const bankCode = document.getElementById('bankCode').value || 'RJHI';
     const clientId = document.getElementById('clientId').value || '';
@@ -289,6 +332,11 @@ function buildHeader() {
     const refNo = document.getElementById('refNo').value || document.getElementById('unifiedRefNo').value || '';
     const transactionType = document.getElementById('transactionType').value || 'P000';
     const batchId = document.getElementById('batchId').value || '';
+
+    const problems = validateMandatoryFields();
+    if (problems.length) {
+        throw new Error('حقول إلزامية ناقصة أو غير صحيحة: ' + problems.join(' | '));
+    }
 
     const activeEmployees = employees.filter(e => e.active);
     const totalAmount = activeEmployees.reduce(
@@ -746,6 +794,33 @@ async function generateFile(forcedName){
 }
 
 /* Structural export without a signature - for inspection only, never for upload. */
+/* Pre-flight check: run it before generating so a missing mandatory field is
+   caught here instead of coming back as "Mandatory field missing" from Mudad. */
+function checkMandatoryFields(){
+    const problems=validateMandatoryFields();
+    if(problems.length){
+        showAlert('يوجد '+problems.length+' مشكلة: '+problems.join(' | '),'danger');
+        return false;
+    }
+    let extra=[];
+    try{
+        const body=buildFileBody();
+        /* Validate the unsigned shape only: the signature is added later by
+           produceSignedFile(), so requiring one here would always fail. */
+        const check=validateGeneratedStructure(finalizeFile(body,''));
+        extra=check.errors.filter(e=>e!=='التوقيع غير موجود');
+    }catch(err){
+        showAlert(err.message,'danger');
+        return false;
+    }
+    if(extra.length){
+        showAlert('الحقول الإلزامية سليمة لكن البنية فيها أخطاء: '+extra.slice(0,3).join(' | '),'warning');
+        return false;
+    }
+    showAlert('جميع الحقول الإلزامية موجودة والبنية سليمة. يمكنك توليد الملف.','success');
+    return true;
+}
+
 function downloadUnsignedBody(){
     let body;
     try{ body=buildFileBody(); }
