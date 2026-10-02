@@ -98,6 +98,13 @@ const DEFAULT_EMPLOYEES=[
 const DEFAULT_DB_IBANS=DEFAULT_EMPLOYEES.map((e,i)=>({name:e.name,iban:e.iban,suffix:e.suffix,count:i<3?5:i<8?4:3,active:true}));
 let employees=JSON.parse(JSON.stringify(DEFAULT_EMPLOYEES)),dbIbans=[],salaryMethod='individual',generatedFileContent='',externalFileContent='',externalFileName='';
 
+/*
+ * The signature belongs to one exact body. We remember the body that was
+ * signed so a later edit can never leave a valid-looking signature sitting
+ * on top of different data (which the bank rejects as error 008).
+ */
+let signedBody='',currentSignature='';
+
 document.addEventListener('DOMContentLoaded',()=>{
 loadDatabase();normalizeAllEmployees();initEmployees();initRefIds();setDefaultDate();generateRefNo();updateStats();refreshPreview();
 document.getElementById('csvFileInput').addEventListener('change',handleCsvFile);
@@ -106,6 +113,12 @@ document.getElementById('refNoMethod').addEventListener('change',function(){if(t
 document.getElementById('companyPrefix').addEventListener('change',function(){if(this.value.length===12)document.getElementById('sourceIban').value='SA98'+'8000'+this.value+'0103'});
 document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('active')}));
 if(localStorage.getItem('payroll_template'))setTimeout(loadTemplate,500);
+/* Any edit to a header/batch field changes the body, so the old
+   signature no longer belongs to the file. */
+['clientId','companyPrefix','sourceIban','bankCode','currency','transactionType','description','status','batchId','batchDate','sessionId','refNo'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.addEventListener('input',invalidateSignature);el.addEventListener('change',invalidateSignature);}
+});
 loadSavedKeys();
 });
 function setDefaultDate(){document.getElementById('batchDate').value=new Date().toISOString().split('T')[0]}
@@ -166,6 +179,7 @@ function loadReferenceTestData(){
         transactionSuffix:e.transactionSuffix
     }));
 
+    invalidateSignature();
     initEmployees();
     initRefIds();
     updateStats();
@@ -189,15 +203,17 @@ function initEmployees(){let c=document.getElementById('employeesContainer');c.i
 <div class="form-group"><label class="form-label">Record ID (10 أرقام)</label><input class="form-input" value="${escapeHtml(e.recordId||'')}" maxlength="10" inputmode="numeric" onchange="updateEmployeeRecordId(${i},this.value)" placeholder="رقم المرجع من الملف"></div>
 <div class="form-group"><label class="form-label">Transaction Suffix (4 أرقام)</label><input class="form-input" value="${escapeHtml(e.transactionSuffix||'')}" maxlength="4" inputmode="numeric" onchange="updateEmployeeTransactionSuffix(${i},this.value)" placeholder="آخر 4 أرقام"></div>
 </div>`;c.appendChild(d)})}
-function toggleEmployee(i){employees[i].active=!employees[i].active;initEmployees();initRefIds();updateStats()}
-function updateEmployeeSalary(i,f,v){employees[i][f]=parseFloat(v)||0;initEmployees();updateStats()}
+function toggleEmployee(i){employees[i].active=!employees[i].active;invalidateSignature();initEmployees();initRefIds();updateStats()}
+function updateEmployeeSalary(i,f,v){employees[i][f]=parseFloat(v)||0;invalidateSignature();initEmployees();updateStats()}
 function updateEmployeeRefId(i,v){employees[i].refId=v.trim()}
 function updateEmployeeRecordId(i,v){
     employees[i].recordId=String(v||'').replace(/\D/g,'').slice(0,10);
+    invalidateSignature();
     initEmployees();
 }
 function updateEmployeeTransactionSuffix(i,v){
     employees[i].transactionSuffix=String(v||'').replace(/\D/g,'').slice(0,4);
+    invalidateSignature();
     initEmployees();
 }
 function initRefIds(){let c=document.getElementById('refIdsContainer');c.innerHTML='';employees.forEach((e,i)=>{let d=document.createElement('div');d.className='form-group';d.style.marginBottom='12px';d.innerHTML=`<label class="form-label">RefID - ${escapeHtml(e.name)} ${e.active?'<span class="required">*</span>':'(غير نشط)'}</label><input class="form-input" data-index="${i}" value="${escapeHtml(e.refId||'')}" placeholder="أدخل RefID" ${!e.active?'disabled':''}>`;c.appendChild(d)});c.querySelectorAll('input').forEach(x=>x.addEventListener('change',function(){employees[+this.dataset.index].refId=this.value.trim();initEmployees()}))}
@@ -206,9 +222,9 @@ function generateRandomRefId(){return Math.floor(1000000000+Math.random()*900000
 function clearRefIds(){employees.forEach(e=>e.refId='');initRefIds();initEmployees()}
 function generateRefNo(){if(document.getElementById('refNoMethod').value==='auto'){const r=makeRefNo();document.getElementById('unifiedRefNo').value=r;document.getElementById('refNo').value=r}}
 function setSalaryMethod(m){salaryMethod=m;document.querySelectorAll('.method-btn').forEach(b=>b.classList.remove('active'));document.querySelector('.method-btn[data-method="'+m+'"]').classList.add('active');document.getElementById('quickFillPanel').style.display=m==='uniform'?'block':'none';document.getElementById('csvUploadPanel').style.display=m==='file'?'block':'none';if(m==='range')applyRandomRange()}
-function applyUniformSalary(){let s=+document.getElementById('uniformSalary').value||0,f=+document.getElementById('uniformFees').value||0;employees.forEach(e=>{if(e.active){e.baseSalary=s;e.fees=f}});initEmployees();updateStats()}
-function applyRandomRange(){employees.forEach(e=>{if(e.active){e.baseSalary=Math.floor(400+Math.random()*400);e.fees=+(Math.random()*5).toFixed(2)}});initEmployees();updateStats()}
-function handleCsvFile(ev){let f=ev.target.files[0];if(!f)return;document.getElementById('csvFileName').textContent=f.name;let r=new FileReader;r.onload=e=>{e.target.result.split(/\r?\n/).forEach((l,i)=>{let p=l.split(',');if(i<employees.length&&l.trim()&&p.length>=2){employees[i].baseSalary=parseFloat(p[0])||0;employees[i].fees=parseFloat(p[1])||0}});initEmployees();updateStats()};r.readAsText(f)}
+function applyUniformSalary(){let s=+document.getElementById('uniformSalary').value||0,f=+document.getElementById('uniformFees').value||0;employees.forEach(e=>{if(e.active){e.baseSalary=s;e.fees=f}});invalidateSignature();initEmployees();updateStats()}
+function applyRandomRange(){employees.forEach(e=>{if(e.active){e.baseSalary=Math.floor(400+Math.random()*400);e.fees=+(Math.random()*5).toFixed(2)}});invalidateSignature();initEmployees();updateStats()}
+function handleCsvFile(ev){let f=ev.target.files[0];if(!f)return;document.getElementById('csvFileName').textContent=f.name;let r=new FileReader;r.onload=e=>{e.target.result.split(/\r?\n/).forEach((l,i)=>{let p=l.split(',');if(i<employees.length&&l.trim()&&p.length>=2){employees[i].baseSalary=parseFloat(p[0])||0;employees[i].fees=parseFloat(p[1])||0}});invalidateSignature();initEmployees();updateStats()};r.readAsText(f)}
 function updateStats(){let a=employees.filter(e=>e.active),s=a.reduce((x,e)=>x+(+e.baseSalary||0),0),f=a.reduce((x,e)=>x+(+e.fees||0),0);document.getElementById('activeCount').textContent=a.length;document.getElementById('totalSalary').textContent=s.toFixed(2);document.getElementById('totalFees').textContent=f.toFixed(2);document.getElementById('grandTotal').textContent=(s+f).toFixed(2)}
 
 /*
@@ -233,7 +249,19 @@ function padRight(value, length) {
 
 function formatAmount(value, length = 16) {
     const number = Number(value || 0);
-    return number.toFixed(2).replace('.', ',').padStart(length, '0');
+    if (!Number.isFinite(number)) {
+        throw new Error(`قيمة مبلغ غير صالحة: ${value}`);
+    }
+    if (number < 0) {
+        throw new Error(`المبلغ السالب غير مدعوم: ${value}`);
+    }
+    const text = number.toFixed(2).replace('.', ',');
+    // padStart never truncates, so a large amount would silently widen the
+    // field and break the 583-byte line. Fail loudly instead.
+    if (text.length > length) {
+        throw new Error(`المبلغ ${text} أطول من ${length} حرفًا`);
+    }
+    return text.padStart(length, '0');
 }
 
 function formatAmount13(value) {
@@ -316,9 +344,13 @@ function buildPayrollDetail(emp, transactionId, dateYYYYMMDD, recordId) {
         formatAmount13(0),
         padRight(recordId, 10),
         padRight(transactionId, 16),
-        padRight('Success', 8),
+        padRight(statusOf(), 8),
         padRight(dateYYYYMMDD, 8)
     ].join('\t');
+}
+
+function statusOf() {
+    return document.getElementById('status').value || 'Success';
 }
 
 function buildCentralizationDetail(item, transactionId, dateYYYYMMDD, recordId) {
@@ -337,7 +369,7 @@ function buildCentralizationDetail(item, transactionId, dateYYYYMMDD, recordId) 
         formatAmount13(0),
         padRight(recordId, 10),
         padRight(transactionId, 16),
-        padRight('Success', 8),
+        padRight(statusOf(), 8),
         padRight(dateYYYYMMDD, 8)
     ].join('\t');
 }
@@ -395,14 +427,7 @@ function splitFile(content) {
     const normalized=String(content==null?'':content).replace(/\r\n/g,'\n').replace(/\r/g,'\n');
     const i=normalized.lastIndexOf('\n-\n');
     if (i<0) return {body:normalized, signature:'', separated:false};
-    return {body:normalized.slice(0,i), signature:normalized.slice(i+3).trim(), separated:true};
-}
-
-function buildFileContent() {
-    const previous=splitFile(generatedFileContent);
-    return finalizeFile(buildFileBody(), previous.signature);
-}
-
+    return {body:normalized.slice(0,i), signature:normalized.slice(i+3).trim(), separated:true};}
 
 const HEADER_WIDTHS = [4,10,24,3,8,16,8,16,6,18];
 const DETAIL_WIDTHS = [16,34,140,140,140,6,13,13,13,13,10,16,8,8];
@@ -622,14 +647,17 @@ async function produceSignedFile() {
         throw err;
     }
     const signature = await signBody(body, keys.privateKey);
-    return finalizeFile(body, signature);
+    signedBody = body;
+    currentSignature = signature;
+    generatedFileContent = finalizeFile(body, signature);
+    return generatedFileContent;
 }
 
 function downloadFile(c,n){let b=new Blob([c],{type:'text/plain;charset=utf-8'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}
 
-function generateReferenceTestFile(){
+async function generateReferenceTestFile(){
     loadReferenceTestData();
-    generateFile('09-111963_reference_test.txt');
+    await generateFile('09-111963_reference_test.txt');
 }
 
 async function generateFile(forcedName){
@@ -665,28 +693,72 @@ function downloadUnsignedBody(){
     catch(err){ showAlert(err.message,'warning'); return; }
     const content=finalizeFile(body,'');
     const check=validateGeneratedStructure(content);
-    generatedFileContent=content;
-    showAlert('فحص البنية: '+(check.ok?'سليم':'فيه أخطاء')+' — '+
-        'تنبيه: بدون توقيع سيرفضه البنك (خطأ 008).','warning');
+    /* Never let an unsigned body overwrite the signed file in memory. */
+    showAlert('فحص البنية: '+(check.ok?'سليم':'فيه أخطاء')+(check.ok?'':' — '+check.errors.slice(0,3).join(' | '))+' — '+
+        'تنبيه: هذا الملف بدون توقيع وسيرفضه البنك (خطأ 008).','warning');
     downloadFile(content,(document.getElementById('batchId').value||'batch')+'_unsigned.txt');
 }
 
-function refreshPreview(){
+/*
+ * Returns the body plus the signature that is still valid for it.
+ * A signature is dropped as soon as the body it was made for changes,
+ * so we can never show or hand over a stale one.
+ */
+function currentBodyAndSignature(){
     let body;
     try{
         body=buildFileBody();
     }catch(err){
+        return {error:err.message};
+    }
+    const stillValid = signedBody && body===signedBody;
+    return {body, signature:stillValid?currentSignature:''};
+}
+
+function refreshPreview(){
+    const state=currentBodyAndSignature();
+    if(state.error){
         document.getElementById('previewContent').innerHTML=
-            '<span class="detail-line">'+escapeHtml('تعذر بناء المعاينة: '+err.message)+'</span>';
+            '<span class="detail-line">'+escapeHtml('تعذر بناء المعاينة: '+state.error)+'</span>';
         return;
     }
-    const previous=splitFile(generatedFileContent);
-    generatedFileContent=finalizeFile(body,previous.signature);
-    let h=generatedFileContent.split('\n').map((l,i)=>i===0?`<span class="header-line">${escapeHtml(l)}</span>`:l==='-'?'<span class="separator-line">-</span>':l.length>200?`<span class="signature-line">${escapeHtml(l.slice(0,100))}... [${l.length} chars]</span>`:`<span class="detail-line">${escapeHtml(l)}</span>`).join('\n');
-    document.getElementById('previewContent').innerHTML=h;
+    generatedFileContent=finalizeFile(state.body,state.signature);
+    const bodyLines=state.body.split('\n').map((l,i)=>i===0
+        ?`<span class="header-line">${escapeHtml(l)}</span>`
+        :`<span class="detail-line">${escapeHtml(l)}</span>`).join('\n');
+    const sigBlock='<span class="separator-line">-</span>\n'+(
+        state.signature
+            ?`<span class="signature-line">${escapeHtml(state.signature.slice(0,100))}... [${state.signature.length} chars]</span>`
+            :'<span class="signature-line">— لا يوجد توقيع —</span>');
+    const banner=state.signature
+        ?''
+        :'<div class="info-box" style="margin-bottom:12px"><i class="fas fa-exclamation-triangle"></i><p>المعاينة بدون توقيع. وقّع الملف أو ولّده قبل الرفع، وإلا سيرفضه البنك بخطأ 008.</p></div>';
+    document.getElementById('previewContent').innerHTML=banner+bodyLines+'\n'+sigBlock;
 }
-function copyPreview(){navigator.clipboard.writeText(generatedFileContent).then(()=>showAlert('تم نسخ المحتوى!','success')).catch(()=>showAlert('تعذر النسخ من المتصفح','danger'))}
-function downloadPreview(){if(!generatedFileContent)refreshPreview();downloadFile(generatedFileContent,(document.getElementById('batchId').value||'batch')+'_'+getBatchDate()+'.txt')}
+function copyPreview(){
+    const state=currentBodyAndSignature();
+    if(state.error){ showAlert(state.error,'danger'); return; }
+    const content=finalizeFile(state.body,state.signature);
+    navigator.clipboard.writeText(content)
+        .then(()=>showAlert('تم نسخ المحتوى!','success'))
+        .catch(()=>showAlert('تعذر النسخ من المتصفح','danger'));
+}
+/* Downloading from the preview must go through the same signing path as the
+   main button, otherwise it silently writes an unsigned file. */
+async function downloadPreview(){
+    try{
+        const content=await produceSignedFile();
+        const check=validateGeneratedStructure(content);
+        if(!check.ok){
+            showAlert('فشل فحص البنية: '+check.errors.slice(0,3).join(' | '),'danger');
+            return;
+        }
+        downloadFile(content,(document.getElementById('batchId').value||'batch')+'_'+getBatchDate()+'.txt');
+        showAlert('تم توليد الملف وتوقيعه. تحقق من التوقيع قبل الرفع.','success');
+    }catch(err){
+        showAlert(err.message+(err&&err.missingKey?' بدون توقيع سيرفضه البنك (خطأ 008).':''),'danger');
+    }
+}
 async function signGeneratedFile(){
     const r=document.getElementById('generatedSignatureResult');
     try{
@@ -694,6 +766,8 @@ async function signGeneratedFile(){
         if(!keys.privateKey||!keys.privateKey.trim()) throw new Error('احفظ المفتاح الخاص المعتمد أولاً من نفس الصفحة.');
         const body=buildFileBody();
         const signature=await signBody(body,keys.privateKey);
+        signedBody=body;
+        currentSignature=signature;
         generatedFileContent=finalizeFile(body,signature);
 
         const check=validateGeneratedStructure(generatedFileContent);
@@ -717,9 +791,10 @@ async function verifyGeneratedFile(){
     try{
         const keys=getSigningKeys();
         if(!keys.publicKey||!keys.publicKey.trim()) throw new Error('أضف المفتاح العام (-----BEGIN PUBLIC KEY-----) لحفظه.');
-        const body=splitFile(generatedFileContent);
-        if(!body.signature) throw new Error('لا يوجد توقيع في الملف الحالي — وقّع الملف أولًا.');
-        const ok=await verifyBody(body.body,body.signature,keys.publicKey);
+        const state=currentBodyAndSignature();
+        if(state.error) throw new Error(state.error);
+        if(!state.signature) throw new Error('لا يوجد توقيع صالح للبيانات الحالية — وقّع الملف أولًا.');
+        const ok=await verifyBody(state.body,state.signature,keys.publicKey);
         showAlert(ok?'✅ التوقيع صالح.':'❌ التوقيع غير صالح / المفتاح غير مطابق.',ok?'success':'danger');
     }catch(err){ showAlert(err.message,'danger'); }
 }
@@ -734,19 +809,20 @@ async function signExternalFile(){
         const keys=getSigningKeys();
         if(!keys.privateKey||!keys.privateKey.trim()) throw new Error('احفظ المفتاح الخاص المعتمد أولاً من نفس الصفحة.');
         const parts=splitFile(externalFileContent);
-        if(!parts.signature){
-            const signature=await signBody(parts.body,keys.privateKey);
-            externalFileContent=finalizeFile(parts.body,signature);
+        let signature=parts.signature;
+        if(!signature){
+            /* Was unsigned: sign it, then verify the signature we just made. */
+            signature=await signBody(parts.body,keys.privateKey);
             r.style.display='block';
             r.textContent='(تم توقيع جسم الملف وإضافة التوقيع) — استخدم زر «تنزيل الملف الموقّع».';
             showAlert('تمت إضافة توقيع صالح. استخدم «تنزيل الملف الموقّع».','success');
         }else{
-            externalFileContent=finalizeFile(parts.body,parts.signature);
             r.style.display='block';
-            r.textContent='التوقيع الموجود بالملف: '+parts.signature;
+            r.textContent='التوقيع الموجود بالملف: '+signature;
         }
+        externalFileContent=finalizeFile(parts.body,signature);
         if(keys.publicKey&&keys.publicKey.trim()){
-            const ok=await verifyBody(parts.body,parts.signature,keys.publicKey);
+            const ok=await verifyBody(parts.body,signature,keys.publicKey);
             showAlert(ok?'✅ التوقيع في الملف صالح.':'❌ التوقيع في الملف غير صالح / المفتاح غير مطابق.',ok?'success':'danger');
         }
     }catch(err){
@@ -763,22 +839,35 @@ function downloadSignedExternal(){
 }
 async function saveSigningKeys(){
     try{
-        const privatePem=document.getElementById('privateKeyInput').value;
-        const publicPem=document.getElementById('publicKeyInput').value;
+        const privateField=document.getElementById('privateKeyInput');
+        const publicField=document.getElementById('publicKeyInput');
+        let privatePem=privateField.value;
+        const publicPem=publicField.value;
+
+        /* The box shows a mask once a key is saved. Never overwrite the real
+           stored key with that mask when the button is pressed again. */
+        if(privatePem.indexOf('•')!==-1) privatePem=getSigningKeys().privateKey||'';
+
         if(privatePem.trim()){
             const sig=await signBody('probe',privatePem);
             if(sig.length!==344) throw new Error('المفتاح الخاص ليس RSA-2048.');
-            if(publicPem.trim()) await importPublicKey(publicPem);
         }
+        if(publicPem.trim()) await importPublicKey(publicPem);
         storeSigningKeys({privateKey:privatePem,publicKey:publicPem});
-        document.getElementById('privateKeyInput').value=privatePem?privatePem.replace(/[^\n]+/g,'••••••••••••'):'';
+        signedBody='';
+        currentSignature='';
+        privateField.value='';
+        privateField.placeholder=privatePem?'مفتاح محفوظ — اكتب مفتاحًا جديدًا للاستبدال':'-----BEGIN PRIVATE KEY-----';
         showAlert('تم حفظ المفاتيح محليًا في المتصفح فقط.','success');
+        loadSavedKeys();
     }catch(err){ showAlert(err.message,'danger'); }
 }
 function loadSavedKeys(){
     const keys=getSigningKeys();
     document.getElementById('publicKeyInput').value=keys.publicKey||'';
-    document.getElementById('privateKeyInput').value=keys.privateKey?keys.privateKey.replace(/[^\n]+/g,'••••••••••••'):'';
+    const privateField=document.getElementById('privateKeyInput');
+    privateField.value='';
+    privateField.placeholder=keys.privateKey?'مفتاح محفوظ — اكتب مفتاحًا جديدًا للاستبدال':'-----BEGIN PRIVATE KEY-----';
     const badge=document.getElementById('keyStatus');
     if(badge){
         badge.textContent = keys.privateKey?'مفتاح محفوظ: نعم':'مفتاح محفوظ: لا';
@@ -794,11 +883,41 @@ function clearDatabase(){if(confirm('هل أنت متأكد من مسح جميع
 function addIbanToDb(){['newIbanName','newIbanValue'].forEach(id=>document.getElementById(id).value='');document.getElementById('newIbanCount').value=1;openModal('addIbanModal')}
 function saveNewIban(){let n=document.getElementById('newIbanName').value.trim(),v=document.getElementById('newIbanValue').value.trim(),c=parseInt(document.getElementById('newIbanCount').value)||1;if(!n||!v){showAlert('الرجاء إدخال الاسم وIBAN','danger');return}dbIbans.push({name:n,iban:v,suffix:v.slice(-4),count:c,active:true});saveDatabase();renderDatabase();closeModal('addIbanModal');showAlert('تم إضافة IBAN بنجاح!','success')}
 function removeDbIban(i){dbIbans.splice(i,1);saveDatabase();renderDatabase()}
-function useDbIban(i){let x=dbIbans[i],n=employees.findIndex(e=>!e.active);if(n<0){showAlert('جميع الموظفين نشطون','warning');return}employees[n].name=x.name;employees[n].iban=x.iban;employees[n].suffix=x.suffix;employees[n].active=true;initEmployees();initRefIds();updateStats();showAlert('تم استخدام '+x.name,'success')}
+function useDbIban(i){let x=dbIbans[i],n=employees.findIndex(e=>!e.active);if(n<0){showAlert('جميع الموظفين نشطون','warning');return}employees[n].name=x.name;employees[n].iban=x.iban;employees[n].suffix=x.suffix;/* a different person must not inherit the previous record ids */employees[n].recordId='';employees[n].transactionSuffix='';employees[n].active=true;invalidateSignature();initEmployees();initRefIds();updateStats();showAlert('تم استخدام '+x.name+' — أدخل Record ID و Transaction Suffix للموظف.','success')}
 function fillFromDatabase(){document.getElementById('fillDbList').innerHTML=dbIbans.map((x,i)=>`<div class="checkbox-group" style="padding:10px;border-bottom:1px solid var(--border)"><input type="checkbox" id="dbCheck${i}" value="${i}"><label for="dbCheck${i}" style="flex:1"><b>${escapeHtml(x.name)}</b><div style="font-size:12px;color:var(--text-muted);direction:ltr">${escapeHtml(x.iban)}</div></label></div>`).join('');openModal('fillDbModal')}
-function applyDbFill(){let selected=[...document.querySelectorAll('#fillDbList input:checked')].map(x=>dbIbans[+x.value]),n=0;selected.forEach(x=>{while(n<employees.length&&employees[n].active)n++;if(n<employees.length){employees[n].name=x.name;employees[n].iban=x.iban;employees[n].suffix=x.suffix;employees[n].active=true;n++}});initEmployees();initRefIds();updateStats();closeModal('fillDbModal');showAlert('تم تعبئة '+selected.length+' موظف','success')}
-function saveTemplate(){let t={clientId:clientId.value,companyPrefix:companyPrefix.value,sourceIban:sourceIban.value,bankCode:bankCode.value,currency:currency.value,transactionType:transactionType.value,description:description.value,employees};localStorage.setItem('payroll_template',JSON.stringify(t));showAlert('تم حفظ القالب!','success')}
-function loadTemplate(){let s=localStorage.getItem('payroll_template');if(!s)return;let t=JSON.parse(s);['clientId','companyPrefix','sourceIban','bankCode','currency','transactionType','description'].forEach(id=>{if(t[id]!=null)document.getElementById(id).value=t[id]});if(t.employees){employees=t.employees;initEmployees();initRefIds();updateStats()}showAlert('تم تحميل القالب المحفوظ!','success')}
+function applyDbFill(){let selected=[...document.querySelectorAll('#fillDbList input:checked')].map(x=>dbIbans[+x.value]),n=0;selected.forEach(x=>{while(n<employees.length&&employees[n].active)n++;if(n<employees.length){employees[n].name=x.name;employees[n].iban=x.iban;employees[n].suffix=x.suffix;/* a different person must not inherit the previous record ids */employees[n].recordId='';employees[n].transactionSuffix='';employees[n].active=true;n++}});invalidateSignature();initEmployees();initRefIds();updateStats();closeModal('fillDbModal');showAlert('تم تعبئة '+selected.length+' موظف — أدخل Record ID و Transaction Suffix لكل موظف.','success')}
+/* Every edit that changes the body must drop the signature it invalidates. */
+function invalidateSignature(){
+    if(currentSignature){ currentSignature=''; signedBody=''; }
+}
+const TEMPLATE_FIELDS=['clientId','companyPrefix','sourceIban','bankCode','currency','transactionType','description','status','batchId','batchDate','sessionId','refNo'];
+function saveTemplate(){
+    let t={};
+    TEMPLATE_FIELDS.forEach(id=>{t[id]=document.getElementById(id).value});
+    t.employees=employees;
+    t.salaryMethod=salaryMethod;
+    try{
+        localStorage.setItem('payroll_template',JSON.stringify(t));
+        showAlert('تم حفظ القالب!','success');
+    }catch(err){ showAlert('تعذر حفظ القالب: '+err.message,'danger'); }
+}
+function loadTemplate(){
+    let s=localStorage.getItem('payroll_template');
+    if(!s)return;
+    let t;
+    try{ t=JSON.parse(s); }catch(err){ showAlert('القالب المحفوظ تالف — تم تجاهله.','warning'); return; }
+    TEMPLATE_FIELDS.forEach(id=>{if(t[id]!=null)document.getElementById(id).value=t[id]});
+    if(t.salaryMethod) setSalaryMethod(t.salaryMethod);
+    if(Array.isArray(t.employees)&&t.employees.length){
+        employees=t.employees;
+        normalizeAllEmployees();
+        invalidateSignature();
+        initEmployees();
+        initRefIds();
+        updateStats();
+    }
+    showAlert('تم تحميل القالب المحفوظ!','success');
+}
 function openModal(id){document.getElementById(id).classList.add('active')}function closeModal(id){document.getElementById(id).classList.remove('active')}
 function showAlert(msg,type){let a=document.createElement('div');a.className='alert alert-'+type;a.innerHTML='<i class="fas fa-'+(type==='success'?'check-circle':type==='warning'?'exclamation-triangle':'times-circle')+'"></i> '+escapeHtml(msg);document.querySelector('.main-content').prepend(a);setTimeout(()=>a.remove(),4000)}
 function escapeHtml(t){let d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
